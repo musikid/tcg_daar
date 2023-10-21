@@ -1,33 +1,35 @@
 import { expect } from 'chai'
 import { ethers } from 'hardhat'
+import { loadFixture } from '@nomicfoundation/hardhat-toolbox/network-helpers'
 
-async function init(uri: string = 'https://example.com/card/') {
+async function init() {
   const Card = await ethers.getContractFactory('Card')
-  const card = await Card.deploy(uri)
+  const card = await Card.deploy()
 
   await card.deploymentTransaction()?.wait()
 
-  return card
+  return { card }
 }
 
 describe('card contract', () => {
-  it('should have the defined base URI', async () => {
+  it('should have the defined URI', async () => {
     const [owner] = await ethers.getSigners()
 
-    const uri = 'https://example.com/card/'
-    const card = await init(uri)
+    const { card } = await loadFixture(init)
 
-    const tokenId = (await card.mint(owner.address)).value
-    expect(await card.tokenURI(tokenId)).to.equal(`${uri}${tokenId}`)
+
+    const uri = 'https://example.com/'
+    await card.mint(owner.address, uri)
+    const tokenId = 0
+    expect(await card.tokenURI(tokenId)).to.equal(uri)
   })
 
-  it('should be able to mint multiple cards', async () => {
+  it('should be able to mint cards', async () => {
     const [owner] = await ethers.getSigners()
 
-    const card = await init()
+    const { card } = await loadFixture(init)
 
-    const tokenId1 = (await card.mint(owner.address)).value
-    const tokenId2 = (await card.mint(owner.address)).value
-    expect(tokenId1).to.not.equal(tokenId2)
+    await expect(card.mint(owner.address, "")).to.emit(card, 'Transfer').withArgs(ethers.ZeroAddress, owner.address, 0)
+    await expect(card.mint(owner.address, "")).to.emit(card, 'Transfer').withArgs(ethers.ZeroAddress, owner.address, 1)
   })
 })

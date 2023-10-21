@@ -15,13 +15,16 @@ contract Collection is Ownable {
     string public name;
     // Set of card ids in the collection
     EnumerableSet.UintSet private cardsIds;
+    // Expected number of cards in the collection
+    uint public expectedCount;
 
     /**
      * @dev Constructor
      * @param _name   Collection name
      */
-    constructor(string memory _name) Ownable(_msgSender()) {
+    constructor(string memory _name, uint _expectedCount) Ownable(_msgSender()) {
         name = _name;
+        expectedCount = _expectedCount;
     }
 
     /**
@@ -29,6 +32,8 @@ contract Collection is Ownable {
      * @param _cardId   Card id
      */
     function addCard(uint256 _cardId) public onlyOwner {
+        require(!cardsIds.contains(_cardId), "Card already in collection");
+        require(cardsIds.length() < expectedCount, "Collection is full");
         cardsIds.add(_cardId);
     }
 
@@ -50,7 +55,7 @@ contract Collection is Ownable {
     }
 
     /**
-     * @dev Get the number of cards in the collection
+     * @dev Get the actual number of cards in the collection
      * @return uint256
      */
     function count() public view returns (uint256) {

@@ -13,13 +13,13 @@ import "hardhat/console.sol";
  * @title Main
  * @dev Main contract
  * @dev This contract is used to create collections and mint cards.
- * @dev It is also used to transfer cards to other addresses.
- * @dev It is the owner of all cards.
- * @dev Assumes that the Card contract has already been deployed and that it has ownership transferred to this contract.
+ * It is also used to transfer cards to other addresses, as such it is the original owner of all cards.
+ * We assume that the Card contract has already been deployed and that its ownership has been transferred to this contract.
  */
 contract Main is Ownable, ERC721Holder {
     Collection[] public collections;
     Card private _cardContract;
+    mapping(string => Collection) private _collectionsByName;
 
     constructor(address cardContract) Ownable(_msgSender()) {
         _cardContract = Card(cardContract);
@@ -31,11 +31,30 @@ contract Main is Ownable, ERC721Holder {
      * @return Collection New collection
      */
     function createCollection(
-        string memory _name
+        string memory _name,
+        uint256 _expectedCount
     ) public onlyOwner returns (Collection) {
-        Collection newCollection = new Collection(_name);
+        require(bytes(_name).length > 0, "Name cannot be empty");
+        require(
+            address(_collectionsByName[_name]) == address(0),
+            "Collection already exists"
+        );
+
+        Collection newCollection = new Collection(_name, _expectedCount);
         collections.push(newCollection);
+        _collectionsByName[_name] = newCollection;
         return newCollection;
+    }
+
+    /**
+     * @dev Get a collection by name
+     * @param _name  Collection name
+     * @return Collection
+     */
+    function getCollectionByName(
+        string memory _name
+    ) public view returns (Collection) {
+        return _collectionsByName[_name];
     }
 
     /**
@@ -66,10 +85,11 @@ contract Main is Ownable, ERC721Holder {
      * @return uint256
      */
     function mintCardForCollection(
-        Collection _collection
+        Collection _collection,
+        string memory _cardUri
     ) public onlyOwner returns (uint256) {
         // Mint a new card and add it to the collection
-        uint256 cardId = _cardContract.mint(address(this));
+        uint256 cardId = _cardContract.mint(address(this), _cardUri);
         _collection.addCard(cardId);
         return cardId;
     }
@@ -80,11 +100,12 @@ contract Main is Ownable, ERC721Holder {
      */
     function mintCardsForCollection(
         Collection _collection,
-        uint256 _count
+        string[] memory _cardUris
     ) public onlyOwner returns (uint256[] memory) {
-        uint256[] memory cardIds = new uint256[](_count);
-        for (uint256 i = 0; i < _count; i++) {
-            cardIds[i] = mintCardForCollection(_collection);
+        uint256 count = _cardUris.length;
+        uint256[] memory cardIds = new uint256[](count);
+        for (uint256 i = 0; i < count; i++) {
+            cardIds[i] = mintCardForCollection(_collection, _cardUris[i]);
         }
         return cardIds;
     }
@@ -96,5 +117,19 @@ contract Main is Ownable, ERC721Holder {
      */
     function transferCard(address _to, uint256 _cardId) public onlyOwner {
         _cardContract.safeTransferFrom(address(this), _to, _cardId);
+    }
+
+    /**
+     * @dev Transfer multiple cards to an address
+     * @param _to  Address to transfer to
+     * @param _cardIds  Card ids
+     */
+    function transferCards(
+        address _to,
+        uint256[] memory _cardIds
+    ) public onlyOwner {
+        for (uint256 i = 0; i < _cardIds.length; i++) {
+            transferCard(_to, _cardIds[i]);
+        }
     }
 }
