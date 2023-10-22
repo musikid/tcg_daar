@@ -7,14 +7,14 @@ import "./Card.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/utils/ERC721Holder.sol";
 
-import "hardhat/console.sol";
-
 /**
  * @title Main
  * @dev Main contract
  * @dev This contract is used to create collections and mint cards.
- * It is also used to transfer cards to other addresses, as such it is the original owner of all cards.
- * We assume that the Card contract has already been deployed and that its ownership has been transferred to this contract.
+ * It is also used to transfer cards to other addresses,
+ * since it is the original owner of all cards.
+ * We assume that the Card contract has already been deployed 
+ * and that its ownership has been transferred to this contract.
  */
 contract Main is Ownable, ERC721Holder {
     Collection[] public collections;

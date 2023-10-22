@@ -24,6 +24,9 @@ importers:
       '@nomicfoundation/hardhat-toolbox':
         specifier: ^3.0.0
         version: 3.0.0(@nomicfoundation/hardhat-chai-matchers@2.0.2)(@nomicfoundation/hardhat-ethers@3.0.4)(@nomicfoundation/hardhat-network-helpers@1.0.9)(@nomicfoundation/hardhat-verify@1.1.1)(@typechain/ethers-v6@0.4.3)(@typechain/hardhat@8.0.3)(@types/chai@4.3.9)(@types/mocha@10.0.3)(@types/node@20.8.7)(chai@4.3.10)(ethers@6.8.0)(hardhat-gas-reporter@1.0.9)(hardhat@2.18.2)(solidity-coverage@0.8.5)(ts-node@10.9.1)(typechain@8.3.2)(typescript@5.2.2)
+      '@nomiclabs/hardhat-solhint':
+        specifier: ^3.0.1
+        version: 3.0.1(hardhat@2.18.2)(typescript@5.2.2)
       hardhat:
         specifier: ^2.18.0
         version: 2.18.2(ts-node@10.9.1)(typescript@5.2.2)
@@ -2771,6 +2774,17 @@ packages:
       '@nomicfoundation/solidity-analyzer-win32-x64-msvc': 0.1.1
     dev: true
 
+  /@nomiclabs/hardhat-solhint@3.0.1(hardhat@2.18.2)(typescript@5.2.2):
+    resolution: {integrity: sha512-GqDoStxL1aA9hZul9HRdk+3eEZ/XLBwvIlz3/EJUusUsoadNYEnio9aYOsBeNeZWo+B/Fd3EgMXgbf9wWQLyRA==}
+    peerDependencies:
+      hardhat: ^2.0.0
+    dependencies:
+      hardhat: 2.18.2(ts-node@10.9.1)(typescript@5.2.2)
+      solhint: 3.6.2(typescript@5.2.2)
+    transitivePeerDependencies:
+      - typescript
+    dev: true
+
   /@npmcli/agent@2.2.0:
     resolution: {integrity: sha512-2yThA1Es98orMkpSLVqlDZAMPK3jHJhifP2gnNUdk1754uZ8yI5c+ulCoVG+WlntQA6MzhrURMXjSd9Z7dJ2/Q==}
     engines: {node: ^16.14.0 || >=18.0.0}
@@ -2994,7 +3008,7 @@ packages:
     resolution: {integrity: sha512-osvveYtyzdEVbt3OfwwXFr4P2iVBL5u1Q3q4ONBfDY/UpOuXmOlbgwc1xECEboY8wIays8Yt6onaWMUdUbfl0A==}
     dependencies:
       '@noble/curves': 1.1.0
-      '@noble/hashes': 1.3.1
+      '@noble/hashes': 1.3.2
       '@scure/base': 1.1.3
     dev: true
 
@@ -3008,7 +3022,7 @@ packages:
   /@scure/bip39@1.2.1:
     resolution: {integrity: sha512-Z3/Fsz1yr904dduJD0NpiyRHhRYHdcnyh73FZWiV+/qhWi83wNJ3NWolYqCEN+ZWsUz2TWwajJggcRE9r1zUYg==}
     dependencies:
-      '@noble/hashes': 1.3.1
+      '@noble/hashes': 1.3.2
       '@scure/base': 1.1.3
     dev: true
 
@@ -4748,6 +4762,11 @@ packages:
     engines: {node: '>=12'}
     dev: true
 
+  /antlr4@4.13.1:
+    resolution: {integrity: sha512-kiXTspaRYvnIArgE97z5YVVf/cDVQABr3abFRR6mE7yesLMkgu4ujuyV/sgxafQ8wgve0DJQUJ38Z8tkgA2izA==}
+    engines: {node: '>=16'}
+    dev: true
+
   /antlr4ts@0.5.0-alpha.4:
     resolution: {integrity: sha512-WPQDt1B74OfPv/IMS2ekXAKkTZIHl88uMetg6q3OTqgFxZ/dxDXI0EWLyZid/1Pe6hTftyg5N7gel5wNAGxXyQ==}
     dev: true
@@ -4918,6 +4937,10 @@ packages:
       pathe: 1.1.1
     transitivePeerDependencies:
       - rollup
+    dev: true
+
+  /ast-parents@0.0.1:
+    resolution: {integrity: sha512-XHusKxKz3zoYk1ic8Un640joHbFMhbqneyoZfoKnEGtf2ey9Uh/IdpcQplODdO/kENaMIWsD0nJm4+wX3UNLHA==}
     dev: true
 
   /ast-walker-scope@0.5.0(rollup@3.29.3):
@@ -5794,6 +5817,22 @@ packages:
     dependencies:
       object-assign: 4.1.1
       vary: 1.1.2
+    dev: true
+
+  /cosmiconfig@8.3.6(typescript@5.2.2):
+    resolution: {integrity: sha512-kcZ6+W5QzcJ3P1Mt+83OUv/oHFqZHIx8DuxG6eZ5RGMERoLqp4BuGjhHLYGK+Kf5XVkQvqBSmAy/nGWN3qDgEA==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      typescript: '>=4.9.5'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+    dependencies:
+      import-fresh: 3.3.0
+      js-yaml: 4.1.0
+      parse-json: 5.2.0
+      path-type: 4.0.0
+      typescript: 5.2.2
     dev: true
 
   /crc-32@1.2.2:
@@ -7301,6 +7340,10 @@ packages:
 
   /fast-deep-equal@3.1.3:
     resolution: {integrity: sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q==}
+    dev: true
+
+  /fast-diff@1.3.0:
+    resolution: {integrity: sha512-VxPP4NqbUjj6MaAOafWeUn2cXWLcCtljklUtZf0Ind4XQ+QPtmA0b18zZy0jIQx+ExRVCR/ZQpBmik5lXshNsw==}
     dev: true
 
   /fast-glob@3.3.1:
@@ -11494,6 +11537,33 @@ packages:
       tmp: 0.0.33
     transitivePeerDependencies:
       - debug
+    dev: true
+
+  /solhint@3.6.2(typescript@5.2.2):
+    resolution: {integrity: sha512-85EeLbmkcPwD+3JR7aEMKsVC9YrRSxd4qkXuMzrlf7+z2Eqdfm1wHWq1ffTuo5aDhoZxp2I9yF3QkxZOxOL7aQ==}
+    hasBin: true
+    dependencies:
+      '@solidity-parser/parser': 0.16.1
+      ajv: 6.12.6
+      antlr4: 4.13.1
+      ast-parents: 0.0.1
+      chalk: 4.1.2
+      commander: 10.0.1
+      cosmiconfig: 8.3.6(typescript@5.2.2)
+      fast-diff: 1.3.0
+      glob: 8.1.0
+      ignore: 5.2.4
+      js-yaml: 4.1.0
+      lodash: 4.17.21
+      pluralize: 8.0.0
+      semver: 7.5.4
+      strip-ansi: 6.0.1
+      table: 6.8.1
+      text-table: 0.2.0
+    optionalDependencies:
+      prettier: 2.8.8
+    transitivePeerDependencies:
+      - typescript
     dev: true
 
   /solidity-ast@0.4.52:
