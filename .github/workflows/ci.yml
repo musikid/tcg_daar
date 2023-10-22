@@ -84,15 +84,12 @@ jobs:
           registry-url: https://registry.npmjs.org/
           cache: pnpm
 
-      - run: pnpm install
-
-      - name: Cypress PNPM Patch
-        run: cp pnpm-lock.yaml package-lock.json
+      - name: Copy lockfile to frontend
+        run: cp pnpm-lock.yaml packages/frontend
 
       - name: Cypress
-        uses: cypress-io/github-action@v4
+        uses: cypress-io/github-action@v6
         with:
-          install-command: echo
           working-directory: packages/frontend
           build: pnpm run build
           start: npx vite preview --port 3333
