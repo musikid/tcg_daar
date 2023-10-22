@@ -1,5 +1,12 @@
 {
   "name": "tcg_contracts",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "docgen": "solidity-docgen",
+    "deploy": "hardhat deploy --network localhost",
+    "node": "hardhat node"
+  },
   "dependencies": {
     "@openzeppelin/contracts": "^5.0.0",
     "@openzeppelin/contracts-upgradeable": "^5.0.0"
