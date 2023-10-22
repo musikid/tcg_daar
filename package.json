@@ -11,11 +11,12 @@
   },
   "devDependencies": {
     "eslint": "^8.51.0",
+    "fast-glob": "^3.3.1",
     "lint-staged": "^14.0.1",
     "simple-git-hooks": "^2.9.0"
   },
   "simple-git-hooks": {
-    "pre-commit": "pnpm -r exec lint-staged",
+    "pre-commit": "pnpm exec lint-staged",
     "pre-push": "pnpm -r test"
   }
 }

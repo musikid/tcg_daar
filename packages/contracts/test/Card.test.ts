@@ -17,7 +17,6 @@ describe('card contract', () => {
 
     const { card } = await loadFixture(init)
 
-
     const uri = 'https://example.com/'
     await card.mint(owner.address, uri)
     const tokenId = 0
@@ -29,7 +28,7 @@ describe('card contract', () => {
 
     const { card } = await loadFixture(init)
 
-    await expect(card.mint(owner.address, "")).to.emit(card, 'Transfer').withArgs(ethers.ZeroAddress, owner.address, 0)
-    await expect(card.mint(owner.address, "")).to.emit(card, 'Transfer').withArgs(ethers.ZeroAddress, owner.address, 1)
+    await expect(card.mint(owner.address, '')).to.emit(card, 'Transfer').withArgs(ethers.ZeroAddress, owner.address, 0)
+    await expect(card.mint(owner.address, '')).to.emit(card, 'Transfer').withArgs(ethers.ZeroAddress, owner.address, 1)
   })
 })

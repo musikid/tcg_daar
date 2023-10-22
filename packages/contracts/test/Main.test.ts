@@ -33,7 +33,7 @@ describe('main contract', () => {
   })
 
   it('should not create a collection if not owner', async () => {
-    const [_, notOwner] = await ethers.getSigners()
+    const [, notOwner] = await ethers.getSigners()
     const { main } = await loadFixture(init)
     const collName = 'test'
 
@@ -80,7 +80,7 @@ describe('main contract', () => {
   })
 
   it('should not mint card for a collection if not owner', async () => {
-    const [_, notOwner] = await ethers.getSigners()
+    const [, notOwner] = await ethers.getSigners()
     const { main } = await loadFixture(init)
     const collName = 'test'
     await (await main.createCollection(collName, 1)).wait()
@@ -101,7 +101,7 @@ describe('main contract', () => {
     await (await main.mintCardForCollection(coll, uri)).wait()
 
     const tokenId = 0
-    const [_, to] = await ethers.getSigners()
+    const [, to] = await ethers.getSigners()
     const tx = (await main.transferCard(to.address, tokenId))
     await tx.wait()
 
@@ -110,7 +110,7 @@ describe('main contract', () => {
   })
 
   it('should not transfer a card if not owner', async () => {
-    const [_, notOwner] = await ethers.getSigners()
+    const [, notOwner] = await ethers.getSigners()
     const { main } = await loadFixture(init)
     const collName = 'test'
     await (await main.createCollection(collName, 1)).wait()
@@ -141,7 +141,7 @@ describe('main contract', () => {
   it('should transfer cards', async () => {
     const { main, card } = await loadFixture(init)
     const mainAddr = await main.getAddress()
-    const collName = 'test'
+    const collName = 'testa'
     await (await main.createCollection(collName, 2)).wait()
     const coll = await main.getCollectionByName(collName)
 
@@ -150,7 +150,7 @@ describe('main contract', () => {
     await (await main.mintCardsForCollection(coll, [uri, uri2])).wait()
 
     const tokenIds = [0, 1]
-    const [_, to] = await ethers.getSigners()
+    const [, to] = await ethers.getSigners()
     const tx = (await main.transferCards(to.address, tokenIds))
     await tx.wait()
 
