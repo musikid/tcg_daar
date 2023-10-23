@@ -1,0 +1,1 @@
+import { FastifyPlugin } from "fastify";
