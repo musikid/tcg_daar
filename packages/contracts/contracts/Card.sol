@@ -6,7 +6,11 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 /**
  * @title Card
- * @dev Card contract
+ * @dev NFT card with metadata URI.
+ * @notice This contract (based on [ERC721](https://docs.openzeppelin.com/contracts/5.x/api/token/erc721))
+ * is used to mint cards
+ * and store their metadata URIs
+ * according to [ERC721URIStorage](https://docs.openzeppelin.com/contracts/5.x/api/token/erc721#ERC721URIStorage).
  */
 contract Card is Ownable, ERC721URIStorage {
     // Card id counter
@@ -15,10 +19,10 @@ contract Card is Ownable, ERC721URIStorage {
     constructor() ERC721("Card", "CARD") Ownable(_msgSender()) {}
 
     /**
-     * @dev Mint a new card
+     * @notice Mint a card for an address while setting its metadata URI.
      * @param _to   Address to mint to
      * @param cardUri  Card metadata URI
-     * @return uint256  Card number
+     * @return Card id
      */
     function mint(
         address _to,

@@ -9,26 +9,38 @@ import "@openzeppelin/contracts/token/ERC721/utils/ERC721Holder.sol";
 
 /**
  * @title Main
- * @dev Main contract
- * @dev This contract is used to create collections and mint cards.
- * It is also used to transfer cards to other addresses,
- * since it is the original owner of all cards.
- * We assume that the Card contract has already been deployed 
- * and that its ownership has been transferred to this contract.
+ * @dev Main contract, used to create collections and mint cards.
+ * @notice This contract is used to create collections, mint cards
+ * and also used to transfer cards to other addresses,
+ * since we assume it's the owner of the Card contract
+ * and therefore is the original owner of all cards.
  */
 contract Main is Ownable, ERC721Holder {
+    /**
+     * @dev Array of all collections
+     */
     Collection[] public collections;
+    /**
+     * @dev Card contract
+     */
     Card private _cardContract;
+    /**
+     * @dev Mapping of collection names to collections
+     */
     mapping(string => Collection) private _collectionsByName;
 
+    /**
+     * @notice Constructor, which takes the address of the Card contract.
+     * @param cardContract Card contract address
+     */
     constructor(address cardContract) Ownable(_msgSender()) {
         _cardContract = Card(cardContract);
     }
 
     /**
-     * @dev Create a new collection
+     * @notice Create a new collection of cards.
      * @param _name  Collection name
-     * @return Collection New collection
+     * @return  The created collection
      */
     function createCollection(
         string memory _name,
@@ -47,9 +59,9 @@ contract Main is Ownable, ERC721Holder {
     }
 
     /**
-     * @dev Get a collection by name
+     * @notice Get a collection by name.
      * @param _name  Collection name
-     * @return Collection
+     * @return  The collection
      */
     function getCollectionByName(
         string memory _name
@@ -58,9 +70,9 @@ contract Main is Ownable, ERC721Holder {
     }
 
     /**
-     * @dev Get a collection by index
+     * @notice Get a collection by index.
      * @param _collectionId  Collection id
-     * @return Collection
+     * @return The collection
      */
     function getCollectionById(
         uint256 _collectionId
@@ -73,16 +85,16 @@ contract Main is Ownable, ERC721Holder {
     }
 
     /**
-     * @dev Get all collections
-     * @return Collection[] memory
+     * @notice Get all collections available.
+     * @return All available collections
      */
     function getCollections() public view returns (Collection[] memory) {
         return collections;
     }
 
     /**
-     * @dev Mint a new card and add it to a collection
-     * @return uint256
+     * @notice Mint a new card and add it to the provided collection.
+     * @return  Card token id
      */
     function mintCardForCollection(
         Collection _collection,
@@ -95,8 +107,8 @@ contract Main is Ownable, ERC721Holder {
     }
 
     /**
-     * @dev Mint multiple cards and add them to a collection
-     * @return uint256
+     * @notice Mint multiple cards and add them to the provided collection.
+     * @return  Array of card token ids
      */
     function mintCardsForCollection(
         Collection _collection,
@@ -111,7 +123,7 @@ contract Main is Ownable, ERC721Holder {
     }
 
     /**
-     * @dev Transfer a card to an address
+     * @notice Transfer a card to an address.
      * @param _to  Address to transfer to
      * @param _cardId  Card id
      */
@@ -120,7 +132,7 @@ contract Main is Ownable, ERC721Holder {
     }
 
     /**
-     * @dev Transfer multiple cards to an address
+     * @notice Transfer multiple cards to an address.
      * @param _to  Address to transfer to
      * @param _cardIds  Card ids
      */

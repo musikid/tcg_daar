@@ -11,9 +11,12 @@
     "lint:contracts:fix": "solhint contracts --fix",
     "lint:js:fix": "eslint '{deploy,test,scripts}/**/*.ts' --fix",
     "test": "hardhat test",
-    "docgen": "solidity-docgen",
+    "docgen": "hardhat docgen",
     "deploy": "hardhat deploy --network localhost",
-    "node": "hardhat node"
+    "node": "hardhat node",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
   },
   "dependencies": {
     "@openzeppelin/contracts": "^5.0.0",
@@ -29,7 +32,8 @@
     "hardhat": "^2.18.0",
     "hardhat-deploy": "^0.11.43",
     "solhint": "^3.6.2",
-    "solidity-docgen": "^0.6.0-beta.36"
+    "solidity-docgen": "^0.6.0-beta.36",
+    "vitepress": "1.0.0-rc.23"
   },
   "lint-staged": {
     "*.sol": "solhint --fix",
