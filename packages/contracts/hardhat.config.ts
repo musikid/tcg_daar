@@ -11,6 +11,7 @@ const config: HardhatUserConfig = {
   },
   docgen: {
     pages: 'items',
+    templates: 'docs_templates',
     outputDir: 'docs/reference/contracts',
   }
 }
