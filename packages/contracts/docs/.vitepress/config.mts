@@ -17,6 +17,7 @@ export default defineConfig({
         {
           text: 'Reference',
           base: '/reference/',
+          link: '/',
           items: [
             {
               text: 'Contracts',

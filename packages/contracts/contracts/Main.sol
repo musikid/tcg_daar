@@ -40,6 +40,7 @@ contract Main is Ownable, ERC721Holder {
     /**
      * @notice Create a new collection of cards.
      * @param _name  Collection name
+     * @param _expectedCount  Expected number of cards in the collection
      * @return  The created collection
      */
     function createCollection(
