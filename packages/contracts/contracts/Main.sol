@@ -2,7 +2,7 @@
 pragma solidity ^0.8.20;
 
 import "./Collection.sol";
-import "./Card.sol";
+import "./Mintable.sol";
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/utils/ERC721Holder.sol";
@@ -23,7 +23,7 @@ contract Main is Ownable, ERC721Holder {
     /**
      * @dev Card contract
      */
-    Card private _cardContract;
+    Mintable private _cardContract;
     /**
      * @dev Mapping of collection names to collections
      */
@@ -34,7 +34,7 @@ contract Main is Ownable, ERC721Holder {
      * @param cardContract Card contract address
      */
     constructor(address cardContract) Ownable(_msgSender()) {
-        _cardContract = Card(cardContract);
+        _cardContract = Mintable(cardContract);
     }
 
     /**
