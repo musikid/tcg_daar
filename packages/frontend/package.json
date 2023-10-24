@@ -2,7 +2,6 @@
   "name": "frontend",
   "type": "module",
   "private": true,
-  "packageManager": "pnpm@8.9.0",
   "scripts": {
     "build": "vite-ssg build",
     "dev": "vite --port 3333 --open",
@@ -24,6 +23,7 @@
     "@vueuse/head": "^2.0.0",
     "nprogress": "^0.2.0",
     "pinia": "^2.1.6",
+    "viem": "^1.16.6",
     "vue": "^3.3.4",
     "vue-demi": "^0.14.6",
     "vue-i18n": "^9.5.0",
@@ -47,7 +47,6 @@
     "https-localhost": "^4.7.1",
     "markdown-it-link-attributes": "^4.0.1",
     "markdown-it-shikiji": "^0.6.10",
-    "pnpm": "^8.9.0",
     "rollup": "^3.29.3",
     "shikiji": "^0.6.10",
     "taze": "^0.11.3",
