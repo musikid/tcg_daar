@@ -11,7 +11,7 @@
     "lint:contracts:fix": "solhint contracts --fix",
     "lint:js:fix": "eslint '{deploy,test,scripts}/**/*.ts' --fix",
     "test": "hardhat test",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "pnpm run compile && tsc --noEmit",
     "docgen": "hardhat docgen",
     "deploy": "hardhat deploy --network localhost",
     "node": "hardhat node",
