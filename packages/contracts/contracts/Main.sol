@@ -54,9 +54,9 @@ contract Main is Ownable, ERC721Holder {
      * @return  The created collection
      */
     function createCollection(
-        string memory _name,
+        string calldata _name,
         uint256 _expectedCount
-    ) public onlyOwner returns (Collection) {
+    ) external onlyOwner returns (Collection) {
         require(bytes(_name).length > 0, "Name cannot be empty");
         require(
             address(_collectionsByName[_name]) == address(0),
@@ -75,8 +75,8 @@ contract Main is Ownable, ERC721Holder {
      * @return  The collection
      */
     function getCollectionByName(
-        string memory _name
-    ) public view returns (Collection) {
+        string calldata _name
+    ) external view returns (Collection) {
         return _collectionsByName[_name];
     }
 
@@ -99,7 +99,7 @@ contract Main is Ownable, ERC721Holder {
      * @notice Get all collections available.
      * @return All available collections
      */
-    function getCollections() public view returns (Collection[] memory) {
+    function getCollections() external view returns (Collection[] memory) {
         return collections;
     }
 
@@ -124,7 +124,7 @@ contract Main is Ownable, ERC721Holder {
     function mintCardsForCollection(
         Collection _collection,
         string[] memory _cardUris
-    ) public onlyOwner returns (uint256[] memory) {
+    ) external onlyOwner returns (uint256[] memory) {
         uint256 count = _cardUris.length;
         uint256[] memory cardIds = new uint256[](count);
         for (uint256 i = 0; i < count; i++) {
@@ -149,8 +149,8 @@ contract Main is Ownable, ERC721Holder {
      */
     function transferCards(
         address _to,
-        uint256[] memory _cardIds
-    ) public onlyOwner {
+        uint256[] calldata _cardIds
+    ) external onlyOwner {
         for (uint256 i = 0; i < _cardIds.length; i++) {
             transferCard(_to, _cardIds[i]);
         }
@@ -167,9 +167,9 @@ contract Main is Ownable, ERC721Holder {
      */
     function mintBooster(
         address _to,
-        string memory _boosterUri,
-        uint256[] memory _cardIds
-    ) public onlyOwner returns (uint256) {
+        string calldata _boosterUri,
+        uint256[] calldata _cardIds
+    ) external onlyOwner returns (uint256) {
         return _boosterContract.mint(_to, _boosterUri, _cardIds);
     }
 }

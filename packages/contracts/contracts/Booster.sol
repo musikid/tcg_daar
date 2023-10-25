@@ -50,7 +50,7 @@ contract Booster is ERC721URIStorage, Ownable, ERC721Holder {
         address _to,
         string memory boosterUri,
         uint256[] memory cardIds
-    ) public onlyOwner returns (uint256) {
+    ) external onlyOwner returns (uint256) {
         require(cardIds.length > 0, "Booster: must contain at least one card");
         uint256 boosterNumber = _idCounter;
         _idCounter++;
@@ -77,7 +77,7 @@ contract Booster is ERC721URIStorage, Ownable, ERC721Holder {
      */
     function getCards(
         uint256 boosterId
-    ) public view returns (uint256[] memory) {
+    ) external view returns (uint256[] memory) {
         require(
             ownerOf(boosterId) == _msgSender(),
             "Booster: caller is not the owner of the booster"
@@ -92,7 +92,7 @@ contract Booster is ERC721URIStorage, Ownable, ERC721Holder {
      * burning the booster and transferring the cards.
      * @param boosterId  Booster id
      */
-    function unpack(uint256 boosterId) public {
+    function unpack(uint256 boosterId) external {
         require(
             ownerOf(boosterId) == _msgSender(),
             "Booster: caller is not the owner of the booster"

@@ -28,7 +28,7 @@ contract Card is Ownable, ERC721URIStorage {
     function mint(
         address _to,
         string memory cardUri
-    ) public onlyOwner returns (uint256) {
+    ) external onlyOwner returns (uint256) {
         uint256 cardNumber = _idCounter;
         _idCounter++;
 
