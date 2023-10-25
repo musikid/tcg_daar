@@ -65,6 +65,8 @@ jobs:
       - run: pnpm -r test
 
   test-e2e:
+    # Disable since we don't have any e2e tests yet
+    if: ${{ false }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
