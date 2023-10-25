@@ -31,7 +31,10 @@ contract Collection is Ownable {
      * @param _name   Collection name
      * @param _expectedCount  Expected number of cards in the collection
      */
-    constructor(string memory _name, uint _expectedCount) Ownable(_msgSender()) {
+    constructor(
+        string memory _name,
+        uint _expectedCount
+    ) Ownable(_msgSender()) {
         name = _name;
         expectedCount = _expectedCount;
     }

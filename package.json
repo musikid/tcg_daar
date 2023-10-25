@@ -21,6 +21,6 @@
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm exec lint-staged",
-    "pre-push": "pnpm -r test"
+    "pre-push": "pnpm -r --aggregate-output test"
   }
 }
