@@ -11,7 +11,7 @@ export default antfu(
   },
   unocss.configs.flat,
   {
-    files: ['**/*.test.ts'],
+    files: ['packages/contracts/**/*.test.ts'],
     plugins: {
       'chai-friendly': chaiFriendly,
     },
