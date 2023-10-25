@@ -9,15 +9,12 @@ const deploy: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
     const Card = await getDeployment('Card')
     const CardAddress = Card.address
 
-    const result = await deploy('Main', {
+    await deploy('Booster', {
         from: deployer,
         args: [CardAddress],
         log: true,
         autoMine: true,
     })
-
-    const card = await ethers.getContractAt('Card', CardAddress)
-
-    await card.transferOwnership(result.address)
 }
+
 export default deploy

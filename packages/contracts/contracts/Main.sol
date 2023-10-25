@@ -2,7 +2,8 @@
 pragma solidity ^0.8.20;
 
 import "./Collection.sol";
-import "./Mintable.sol";
+import "./Booster.sol";
+import "./Card.sol";
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/utils/ERC721Holder.sol";
@@ -23,7 +24,11 @@ contract Main is Ownable, ERC721Holder {
     /**
      * @dev Card contract
      */
-    Mintable private _cardContract;
+    Card private _cardContract;
+    /**
+     * @dev Booster contract
+     */
+    Booster private _boosterContract;
     /**
      * @dev Mapping of collection names to collections
      */
@@ -33,8 +38,13 @@ contract Main is Ownable, ERC721Holder {
      * @notice Constructor, which takes the address of the Card contract.
      * @param cardContract Card contract address
      */
-    constructor(address cardContract) Ownable(_msgSender()) {
-        _cardContract = Mintable(cardContract);
+    constructor(
+        address cardContract,
+        address boosterContract
+    ) Ownable(_msgSender()) {
+        _cardContract = Card(cardContract);
+        _boosterContract = Booster(boosterContract);
+        _cardContract.setApprovalForAll(boosterContract, true);
     }
 
     /**
@@ -144,5 +154,22 @@ contract Main is Ownable, ERC721Holder {
         for (uint256 i = 0; i < _cardIds.length; i++) {
             transferCard(_to, _cardIds[i]);
         }
+    }
+
+    /**
+     * @notice Mint a booster of cards with `_boosterUri` as the token URI
+     * and add the cards `_cardIds` to the booster while transferring them
+     * to `_to`.
+     * @param _to  Address to mint the booster to
+     * @param _boosterUri  Booster metadata URI
+     * @param _cardIds  Array of card ids to add to the booster
+     * @return Booster id
+     */
+    function mintBooster(
+        address _to,
+        string memory _boosterUri,
+        uint256[] memory _cardIds
+    ) public onlyOwner returns (uint256) {
+        return _boosterContract.mint(_to, _boosterUri, _cardIds);
     }
 }
