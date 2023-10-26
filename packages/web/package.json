@@ -9,6 +9,13 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
   },
+  "dependencies": {
+    "@prisma/client": "^5.5.2",
+    "daisyui": "^3.9.3",
+    "prisma": "^5.5.2",
+    "unocss-preset-daisy": "^6.0.1",
+    "viem": "^1.17.1"
+  },
   "devDependencies": {
     "@iconify-json/carbon": "^1.1.21",
     "@iconify-json/mdi": "^1.1.55",
