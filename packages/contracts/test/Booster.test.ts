@@ -1,6 +1,7 @@
 import { expect } from 'chai'
 import { ethers } from 'hardhat'
 import { loadFixture } from '@nomicfoundation/hardhat-toolbox/network-helpers'
+import { getTokenIds } from './utils'
 
 async function init() {
   const Card = await ethers.getContractFactory('Card')
@@ -27,8 +28,7 @@ async function initWithABooster() {
 
   await card.mint(owner.address, '')
   await card.mint(owner.address, '')
-  const filter = card.filters.Transfer(undefined, owner.address)
-  const boosterCards = (await card.queryFilter(filter)).map(e => e.args.tokenId)
+  const boosterCards = await getTokenIds(card, owner.address)
 
   await booster.mint(owner.address, '', boosterCards)
 
@@ -43,8 +43,7 @@ describe('booster contract', () => {
 
     await card.mint(owner.address, '')
     await card.mint(owner.address, '')
-    const filter = card.filters.Transfer(undefined, owner.address)
-    const cards = (await card.queryFilter(filter)).map(e => e.args.tokenId)
+    const cards = await getTokenIds(card, owner.address)
 
     await expect(booster.mint(owner.address, '', cards)).to.emit(booster, 'Transfer').withArgs(ethers.ZeroAddress, owner.address, 0)
 
@@ -59,15 +58,13 @@ describe('booster contract', () => {
 
     await card.mint(owner.address, '')
     await card.mint(owner.address, '')
-    const filter = card.filters.Transfer(undefined, owner.address)
-    const cardsBooster1 = (await card.queryFilter(filter)).map(e => e.args.tokenId)
+    const cardsBooster1 = await getTokenIds(card, owner.address)
 
     const block = await ethers.provider.getBlockNumber()
     await card.mint(owner.address, '')
     await card.mint(owner.address, '')
     await card.mint(owner.address, '')
-    const filter2 = card.filters.Transfer(undefined, owner.address)
-    const cardsBooster2 = (await card.queryFilter(filter2, block + 1)).map(e => e.args.tokenId)
+    const cardsBooster2 = await getTokenIds(card, owner.address, block + 1)
 
     const firstTx = await booster.mint(owner.address, '', cardsBooster1)
     await expect(firstTx).to.emit(booster, 'Transfer').withArgs(ethers.ZeroAddress, owner.address, 0)

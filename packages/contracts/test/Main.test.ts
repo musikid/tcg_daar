@@ -1,6 +1,7 @@
 import { loadFixture } from '@nomicfoundation/hardhat-toolbox/network-helpers'
 import { expect } from 'chai'
 import { ethers } from 'hardhat'
+import { getTokenIds } from './utils'
 
 async function init() {
   const Card = await ethers.getContractFactory('Card')
@@ -55,8 +56,7 @@ describe('main contract', () => {
     const uri = 'https://example.com/'
     await expect(main.mintCardForCollection(coll, uri)).to.emit(card, 'Transfer').withArgs(ethers.ZeroAddress, mainAddr, 0)
 
-    const filter = card.filters.Transfer(undefined, main.target)
-    const tokenId = await card.queryFilter(filter).then(evs => evs[0].args?.tokenId)
+    const tokenId = (await getTokenIds(card, main.target))[0]
     const collContract = await ethers.getContractAt('Collection', coll)
     expect(await card.tokenURI(tokenId)).to.equal(uri)
     expect(await collContract.hasCard(tokenId)).to.be.true
@@ -74,8 +74,7 @@ describe('main contract', () => {
     const tx = await main.mintCardsForCollection(coll, [uri, uri2])
     await tx.wait()
 
-    const filter = card.filters.Transfer(undefined, main.target)
-    const tokenIds = await card.queryFilter(filter).then(evs => evs.map(e => e.args.tokenId))
+    const tokenIds = await getTokenIds(card, main.target)
 
     for (const tokenId of tokenIds)
       await expect(tx).to.emit(card, 'Transfer').withArgs(ethers.ZeroAddress, mainAddr, tokenId)
@@ -108,8 +107,7 @@ describe('main contract', () => {
     const uri = 'https://example.com/'
     await (await main.mintCardForCollection(coll, uri)).wait()
 
-    const filter = card.filters.Transfer(undefined, main.target)
-    const tokenId = await card.queryFilter(filter).then(evs => evs[0].args?.tokenId)
+    const tokenId = (await getTokenIds(card, main.target))[0]
     const [, to] = await ethers.getSigners()
     const tx = (await main.transferCard(to.address, tokenId))
     await tx.wait()
@@ -128,8 +126,7 @@ describe('main contract', () => {
     const uri = 'https://example.com/'
     await (await main.mintCardForCollection(coll, uri)).wait()
 
-    const filter = card.filters.Transfer(undefined, main.target)
-    const tokenId = await card.queryFilter(filter).then(evs => evs[0].args?.tokenId)
+    const tokenId = (await getTokenIds(card, main.target))[0]
     await expect(main.connect(notOwner).transferCard(notOwner.address, tokenId)).to.be.revertedWithCustomError(main, 'OwnableUnauthorizedAccount')
   })
 
@@ -143,8 +140,7 @@ describe('main contract', () => {
     const uri = 'https://example.com/'
     await (await main.mintCardForCollection(coll, uri)).wait()
 
-    const filter = card.filters.Transfer(undefined, mainAddr)
-    const tokenId = await card.queryFilter(filter).then(evs => evs[0].args?.tokenId)
+    const tokenId = (await getTokenIds(card, main.target))[0]
     await expect(main.transferCard(notOwner.address, tokenId)).to.emit(card, 'Transfer').withArgs(mainAddr, notOwner.address, tokenId)
 
     await expect(main.transferCard(owner.address, tokenId)).to.be.revertedWithCustomError(card, 'ERC721InsufficientApproval')
@@ -161,8 +157,7 @@ describe('main contract', () => {
     const uri2 = 'https://example2.com/'
     await (await main.mintCardsForCollection(coll, [uri, uri2])).wait()
 
-    const filter = card.filters.Transfer(undefined, mainAddr)
-    const tokenIds = await card.queryFilter(filter).then(evs => evs.map(e => e.args?.tokenId))
+    const tokenIds = (await getTokenIds(card, main.target))
     const [, to] = await ethers.getSigners()
     const tx = (await main.transferCards(to.address, tokenIds))
     await tx.wait()
@@ -183,8 +178,7 @@ describe('main contract', () => {
     const uri = 'https://example.com/'
     await (await main.mintCardForCollection(coll, uri)).wait()
 
-    const filter = card.filters.Transfer(undefined, main.target)
-    const cardIds = await card.queryFilter(filter).then(evs => evs.map(e => e.args?.tokenId))
+    const cardIds = (await getTokenIds(card, main.target))
     const [, to] = await ethers.getSigners()
     const tx = (await main.mintBooster(to, '', cardIds))
     await tx.wait()
@@ -205,8 +199,7 @@ describe('main contract', () => {
     const uri = 'https://example.com/'
     await (await main.mintCardForCollection(coll, uri)).wait()
 
-    const filter = card.filters.Transfer(undefined, main.target)
-    const cardIds = await card.queryFilter(filter).then(evs => evs.map(e => e.args?.tokenId))
+    const cardIds = (await getTokenIds(card, main.target))
     await expect(main.connect(notOwner).mintBooster(notOwner.address, '', cardIds)).to.be.revertedWithCustomError(main, 'OwnableUnauthorizedAccount')
   })
 })
