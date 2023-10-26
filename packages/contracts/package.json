@@ -4,10 +4,10 @@
     "console": "hardhat console --network localhost",
     "clean": "hardhat clean",
     "compile": "hardhat compile",
-    "lint": "conc -c auto --group 'npm:lint:contracts' 'npm:lint:js'",
+    "lint": "conc -c auto --group 'pnpm:lint:contracts' 'pnpm:lint:js'",
     "lint:contracts": "hardhat check",
     "lint:js": "eslint test",
-    "lint:fix": "conc -c auto --group 'npm:lint:contracts:fix' 'npm:lint:js:fix'",
+    "lint:fix": "conc -c auto --group 'pnpm:lint:contracts:fix' 'pnpm:lint:js:fix'",
     "lint:contracts:fix": "solhint contracts --fix",
     "lint:js:fix": "eslint '{deploy,test,scripts}/**/*.ts' --fix",
     "test": "hardhat test",
@@ -39,6 +39,6 @@
   },
   "lint-staged": {
     "*.sol": "solhint --fix",
-    "*.{js,ts}": "eslint --fix"
+    "*.ts": "eslint --fix"
   }
 }
