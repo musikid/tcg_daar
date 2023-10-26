@@ -1,6 +1,9 @@
 <template>
     <div>
         <h1>Home</h1>
-        <p>Go to <nuxt-link to="/about">About</nuxt-link></p>
+        <p>Go to <NuxtLink to="/about">About</NuxtLink></p>
     </div>
 </template>
+
+<script lang="ts">
+</script>

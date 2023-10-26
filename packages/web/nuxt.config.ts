@@ -5,31 +5,30 @@ import { presetDaisy } from 'unocss-preset-daisy'
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ['@unocss/nuxt'],
+  modules: ['@unocss/nuxt', '@pinia/nuxt'],
+  contracts: {
+    network: ['localhost'],
+  },
   css: ['@unocss/reset/tailwind.css'],
   postcss: {},
-  runtimeConfig: {
-    public: {
-      chain: {
-        network: 'localhost',
-        chainId: 31337,
-      }
-    }
-  },
+  runtimeConfig: { },
   unocss: {
     presets: [
       presetUno(),
       presetDaisy({
-        styled: false,
+        styled: true,
+        themes: [{
+
+        }],
       }),
       presetIcons(),
       presetWebFonts({
         fonts: {
           serif: ['Rokkitt'],
           sans: ['Titillium Web'],
-          pixel: ['Handjet']
-        }
+          pixel: ['Handjet'],
+        },
       }),
     ],
-  }
+  },
 })
