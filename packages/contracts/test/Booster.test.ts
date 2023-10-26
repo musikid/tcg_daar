@@ -91,7 +91,7 @@ describe('booster contract', () => {
     for (const id of cards)
       await expect(tx).to.emit(card, 'Transfer').withArgs(booster.target, owner.address, id)
 
-    await expect(booster.getCards(0)).to.be.revertedWithCustomError(booster, 'ERC721NonexistentToken')
+    await expect(booster.getCards(0)).to.be.revertedWith('Booster: booster does not exist')
   })
 
   it('should stop unpacking a booster if not owner', async () => {
@@ -107,6 +107,6 @@ describe('booster contract', () => {
 
     const { booster } = await loadFixture(initWithABooster)
 
-    await expect(booster.connect(notOwner).getCards(0)).to.be.revertedWith('Booster: caller is not the owner of the booster')
+    await expect(booster.connect(notOwner).getCards(0)).to.be.revertedWith('Booster: caller is not the owner of the booster or the owner of the contract')
   })
 })

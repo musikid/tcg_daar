@@ -78,10 +78,11 @@ contract Booster is ERC721URIStorage, Ownable, ERC721Holder {
     function getCards(
         uint256 boosterId
     ) external view returns (uint256[] memory) {
-        require(
+        require(owner() == _msgSender() ||
             ownerOf(boosterId) == _msgSender(),
-            "Booster: caller is not the owner of the booster"
+            "Booster: caller is not the owner of the booster or the owner of the contract"
         );
+        require(_ownerOf(boosterId) != address(0), "Booster: booster does not exist");
 
         return _boosterCards[boosterId];
     }
