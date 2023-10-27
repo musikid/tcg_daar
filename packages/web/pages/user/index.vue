@@ -1,5 +1,5 @@
 <template>
   <div>
-    <LandingMainHero />
+    <User />
   </div>
 </template>

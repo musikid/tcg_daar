@@ -1,4 +1,4 @@
-import { createPublicClient, createWalletClient, custom, getContract, http } from 'viem'
+import { createPublicClient, createWalletClient, custom, getContract, http, zeroAddress } from 'viem'
 import { hardhat } from 'viem/chains'
 import type { Address } from 'viem'
 
@@ -14,9 +14,11 @@ const netConfigs = {
 type Network = keyof typeof netConfigs
 
 export const useWallet = defineStore('wallet', () => {
-  const address = ref<Address>('0x0')
+  const address = ref<Address>(zeroAddress)
   const network = ref<Network>('hardhat')
   const netInfo = computed(() => netConfigs[network.value])
+
+  const isConnected = computed(() => unref(address) !== zeroAddress)
 
   const publicClient = computed(() => {
     const transport = unref(netInfo).url ? http(unref(netInfo).url) : custom(window.ethereum!)
@@ -59,14 +61,41 @@ export const useWallet = defineStore('wallet', () => {
     }),
   )
 
+  /**
+   * Change the account.
+   * @param account Account to change to
+   */
   const changeAccount = (account: Address[]) => {
     address.value = account[0]
   }
 
+  /**
+   * Change the network.
+   * @param net Network to change to
+   */
   const changeNetwork = (net: Network) => {
     network.value = net
+    window.location.reload()
   }
 
+  /**
+   * Disconnect from the wallet.
+   */
+  const disconnect = () => {
+    const { ethereum } = window
+    if (!ethereum)
+      throw new Error('No ethereum provider')
+
+    ethereum.removeListener('accountsChanged', changeAccount)
+    ethereum.removeListener('chainChanged', changeNetwork)
+  }
+
+  /**
+   * Connect to the wallet.
+   * @param net Network to connect to
+   * @throws Error if no ethereum provider is found
+   * @returns A function to disconnect from the wallet
+   */
   const connect = async (net: Network = 'hardhat') => {
     const { ethereum } = window
     if (!ethereum)
@@ -84,22 +113,18 @@ export const useWallet = defineStore('wallet', () => {
 
     ethereum.on('accountsChanged', changeAccount)
     ethereum.on('chainChanged', changeNetwork)
-  }
 
-  const disconnect = () => {
-    const { ethereum } = window
-    if (!ethereum)
-      throw new Error('No ethereum provider')
-
-    ethereum.removeListener('accountsChanged', changeAccount)
-    ethereum.removeListener('chainChanged', changeNetwork)
+    return disconnect
   }
 
   return {
     Booster,
     Card,
     Main,
+    address,
+    network,
     client: walletClient,
+    isConnected,
     connect,
     disconnect,
   }

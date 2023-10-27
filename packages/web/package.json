@@ -24,6 +24,7 @@
     "@nuxt/devtools": "latest",
     "@unocss/nuxt": "^0.57.1",
     "@unocss/preset-uno": "^0.57.1",
+    "@unocss/transformer-directives": "^0.57.1",
     "nuxt": "^3.8.0",
     "unocss": "*",
     "vue": "^3.3.7",
