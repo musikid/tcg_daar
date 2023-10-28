@@ -14,28 +14,16 @@ export default defineConfig({
       },
     }),
     presetIcons(),
-    presetDaisy({
-      styled: true,
-      themes: [{
-        dark: {
-          'primary': '#7BC0F5',
-          'secondary': '#9747FF',
-          'accent': '#333',
-          'neutral': '#1E1E1E',
-          'base-100': '#161616',
-        },
-      }, {
-        light: {
-          'primary': '#7BC0F5',
-          'secondary': '#9747FF',
-          'accent': '#333',
-          'neutral': '#1E1E1E',
-          'base-100': '#161616',
-        },
-      }],
-    }),
   ],
+  theme: {
+    colors: {
+      primary: '#7BC0F5',
+    },
+  },
   transformers: [
     transformerDirectives(),
+  ],
+  rules: [
+    [/^bg-i-\[(--.*)\]/, ([, v]) => ({ 'background-image': `var(${v})` })],
   ],
 })

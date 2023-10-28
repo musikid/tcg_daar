@@ -10,8 +10,10 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@anu-vue/nuxt": "^0.15.2",
     "@pinia/nuxt": "^0.5.1",
     "@prisma/client": "^5.5.2",
+    "@tcgdex/sdk": "^2.5.1",
     "daisyui": "^3.9.3",
     "pinia": "^2.1.7",
     "prisma": "^5.5.2",

@@ -5,6 +5,7 @@ import { addTemplate, defineNuxtModule } from '@nuxt/kit'
 interface ModuleOptions {
   /**
    * The network to export the contracts from.
+   * Check the `networks` section of your `hardhat.config.ts` file.
    * @default 'localhost'
    * @example 'localhost'
    * @example ['localhost', 'rinkeby']

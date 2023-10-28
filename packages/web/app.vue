@@ -6,6 +6,6 @@
 
 <style lang="postcss">
 * {
-  @apply font-serif;
+  @apply font-serif color-white;
 }
 </style>

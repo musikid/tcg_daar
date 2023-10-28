@@ -1,11 +1,11 @@
 <template>
-  <section>
-    <aside>
+  <section class="flex pt-32 md:pt-8 xl:h-screen flex-col xl:flex-row justify-between items-center">
+    <hgroup class="text-center xl:text-left lg:max-w-xl" >
       <h1>
         Trade Pokémon
-        <br>
-        cards as NFTs
+        cards as <span class="bg-clip-text text-transparent bg-i-[--main-gradient]">NFTs</span>
       </h1>
-    </aside>
+    </hgroup>
+    <img src="images/landing/main-card.png" alt="Glowing Pikachu Pokémon card" />
   </section>
 </template>
