@@ -6,6 +6,13 @@ export default defineNuxtConfig({
   contracts: {
     network: ['localhost'],
   },
+  appConfig: {
+    appName: 'TCG',
+  },
   postcss: {},
-  runtimeConfig: {},
+  runtimeConfig: {
+    public: {
+      walletConnectProjectId: '',
+    },
+  },
 })

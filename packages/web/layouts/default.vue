@@ -1,9 +1,9 @@
 <template>
   <div class="relative">
-    <LandingTopBar class="bg-neutral9/95 border-b border-neutral9/50 fixed backdrop-blur top-0 left-0 w-screen z1" />
-    <main class="bg-neutral9 px-20% lg:px-15% flex py-8 pt-64 lg:pt-32 xl:pt-0">
+    <LandingTopBar class="fixed top-0 left-0 w-screen z1" />
+    <main class="bg-neutral9 px-10% flex py-8 pt-32 lg:pt-32 xl:pt-0">
       <div class="absolute z0 top--20 left-10 w-100 h-50 blur-5rem rounded-full bg-i-[--main-gradient]"></div>
-        <slot />
+      <slot />
     </main>
   </div>
 </template>
@@ -14,11 +14,15 @@
 }
 
 h1 {
-  @apply text-7xl font-serif font-bold;
+  @apply text-4xl lg:text-8xl font-serif font-bold;
+}
+
+h2 {
+  @apply text-4xl lg:text-7xl font-serif font-bold;
 }
 
 p {
-  @apply text-3xl font-sans;
+  @apply text-xl lg:text-3xl font-sans;
 }
 
 body,
