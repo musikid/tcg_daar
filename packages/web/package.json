@@ -11,13 +11,18 @@
   },
   "dependencies": {
     "@headlessui/vue": "^1.7.16",
+    "@lucia-auth/adapter-prisma": "^3.0.2",
+    "@lucia-auth/adapter-session-unstorage": "^2.1.0",
     "@pinia/nuxt": "^0.5.1",
     "@prisma/client": "^5.5.2",
     "@tcgdex/sdk": "^2.5.1",
     "@wagmi/core": "^1.4.5",
     "@walletconnect/modal": "^2.6.2",
+    "lucia": "^2.7.2",
     "pinia": "^2.1.7",
     "prisma": "^5.5.2",
+    "siwe": "^2.1.4",
+    "unstorage": "^1.9.0",
     "use-wagmi": "^0.4.3",
     "viem": "^1.17.1"
   },
@@ -32,6 +37,7 @@
     "@unocss/transformer-variant-group": "^0.57.1",
     "@use-wagmi/nuxt": "^1.1.8",
     "nuxt": "^3.8.0",
+    "nuxt-security": "1.0.0-rc.2",
     "unocss": "*",
     "vue": "^3.3.7",
     "vue-router": "^4.2.5"
