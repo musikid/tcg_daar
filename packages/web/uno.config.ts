@@ -1,6 +1,7 @@
 import { defineConfig, presetIcons, presetWebFonts } from 'unocss'
 import presetUno from '@unocss/preset-uno'
 import transformerDirectives from '@unocss/transformer-directives'
+import transformerVariantGroup from '@unocss/transformer-variant-group'
 
 export default defineConfig({
   presets: [
@@ -8,7 +9,7 @@ export default defineConfig({
     presetWebFonts({
       fonts: {
         serif: 'Rokkitt',
-        sans: 'Titillium Web',
+        sans: ['Titillium Web:300,400,500,600'],
         mono: 'Handjet',
       },
     }),
@@ -21,6 +22,7 @@ export default defineConfig({
   },
   transformers: [
     transformerDirectives(),
+    transformerVariantGroup(),
   ],
   rules: [
     [/^bg-i-\[(--.*)\]/, ([, v]) => ({ 'background-image': `var(${v})` })],

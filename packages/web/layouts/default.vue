@@ -27,6 +27,6 @@ p {
 
 body,
 html {
-  @apply h-full w-full m-none;
+  @apply h-full w-full m-none font-sans;
 }
 </style>

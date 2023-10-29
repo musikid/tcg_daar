@@ -1,13 +1,13 @@
 <script setup lang="ts">
-const { appName } = useAppConfig()
+const { appName, appLogo } = useAppConfig()
 </script>
 
 <template>
   <nav class="p-8 bg-neutral9/95 border-b-4 border-neutral8/20 backdrop-blur">
     <div class="flex items-center justify-around flex-row">
       <div>
-        <a href="#">
-          <img src="" :alt="`${appName} Logo`">
+        <a href="/">
+          <img :src="appLogo" :alt="`${appName} Logo`">
         </a>
       </div>
       <div class="flex items-center gap-16 justify-self-end">

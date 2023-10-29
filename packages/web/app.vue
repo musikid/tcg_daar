@@ -5,7 +5,7 @@
 </template>
 
 <style lang="postcss">
-* {
-  @apply font-serif color-white;
+body {
+  @apply text-white;
 }
 </style>
