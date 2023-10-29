@@ -6,6 +6,10 @@ import { prisma } from '@lucia-auth/adapter-prisma'
 import { unstorage } from '@lucia-auth/adapter-session-unstorage'
 import { createStorage } from 'unstorage'
 
+export enum ProviderId {
+  siwe = 'siwe',
+}
+
 const client = new PrismaClient()
 const sessionClient = createStorage()
 
@@ -24,7 +28,8 @@ export const auth = lucia({
 
   getUserAttributes: (data) => {
     return {
-      username: data.username,
+      id: data.id,
+      role: data.role,
     }
   },
 })
