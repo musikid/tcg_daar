@@ -11,16 +11,16 @@ const { appName, appLogo } = defineProps<Props>()
   <nav class="p-8 bg-neutral9/95 border-b-4 border-neutral8/20 backdrop-blur">
     <div class="flex items-center justify-around flex-row">
       <div>
-        <a href="/">
+        <NuxtLink href="/">
           <img :src="appLogo" :alt="`${appName} Logo`">
-        </a>
+        </NuxtLink>
       </div>
       <div class="flex items-center gap-16 justify-self-end">
         <LandingStatusButton />
-        <a href="https://github.com/musikid/tcg_daar" target="_blank" rel="noopener noreferrer">
+        <NuxtLink href="https://github.com/musikid/tcg_daar" target="_blank" rel="noopener noreferrer">
           <div class="i-mdi-github w-10 h-10 hover:color-primary transition-color">
           </div>
-        </a>
+        </NuxtLink>
       </div>
     </div>
   </nav>
