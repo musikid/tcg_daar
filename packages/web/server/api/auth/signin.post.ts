@@ -9,8 +9,6 @@ const schema = z.object({
 })
 
 export default defineEventHandler(async (event) => {
-  const csrfToken = event.headers.get('csrf-token')!
-
   const baseURL = new URL(event.headers.get('host')!)
 
   const body = await readBody(event)
@@ -72,7 +70,7 @@ export default defineEventHandler(async (event) => {
 
   const session = await auth.createSession({
     userId: user.id,
-    attributes: { csrfToken },
+    attributes: {},
   })
   const authReq = auth.handleRequest(event)
   authReq.setSession(session)

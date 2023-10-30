@@ -1,4 +1,3 @@
-// https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ['@unocss/nuxt', '@pinia/nuxt', 'nuxt-security'],
@@ -6,7 +5,6 @@ export default defineNuxtConfig({
   contracts: {
     network: ['localhost'],
   },
-  ssr: false,
   postcss: {},
   security: {
     csrf: {},

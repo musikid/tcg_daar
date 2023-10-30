@@ -1,5 +1,10 @@
 <script setup lang="ts">
-const { appName, appLogo } = useAppConfig()
+interface Props {
+  appName: string
+  appLogo: string
+}
+
+const { appName, appLogo } = defineProps<Props>()
 </script>
 
 <template>
@@ -11,7 +16,7 @@ const { appName, appLogo } = useAppConfig()
         </a>
       </div>
       <div class="flex items-center gap-16 justify-self-end">
-        <LandingSignInButton class="flex-1 w-100%" />
+        <LandingStatusButton />
         <a href="https://github.com/musikid/tcg_daar" target="_blank" rel="noopener noreferrer">
           <div class="i-mdi-github w-10 h-10 hover:color-primary transition-color">
           </div>

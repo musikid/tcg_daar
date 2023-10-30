@@ -7,7 +7,7 @@
           cards as <span class="bg-clip-text text-transparent bg-i-[--main-gradient]">NFTs</span>
         </h1>
       </hgroup>
-      <LandingSignInButton />
+      <slot />
     </div>
     <img src="images/landing/main-card.png" alt="Glowing Pikachu Pokémon card" />
   </section>
