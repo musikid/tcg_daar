@@ -1,7 +1,7 @@
 // server/utils/lucia.ts
 import { lucia } from 'lucia'
 import { h3 } from 'lucia/middleware'
-import { PrismaClient } from '@prisma/client/edge'
+import { PrismaClient } from '@prisma/client'
 import { prisma } from '@lucia-auth/adapter-prisma'
 import { unstorage } from '@lucia-auth/adapter-session-unstorage'
 import { createStorage } from 'unstorage'

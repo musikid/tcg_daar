@@ -1,9 +1,13 @@
+import { configureChains, createConfig, getAccount, getNetwork, signMessage, connect as wagmiConnect, disconnect as wagmiDisconnect, watchAccount } from '@wagmi/core'
 import { hardhat } from '@wagmi/core/chains'
-import { configureChains, connect as wagmiConnect, disconnect as wagmiDisconnect } from '@wagmi/core'
 import { jsonRpcProvider } from '@wagmi/core/providers/jsonRpc'
 import { publicProvider } from '@wagmi/core/providers/public'
 import { WalletConnectConnector } from '@wagmi/core/connectors/walletConnect'
 import { MetaMaskConnector } from '@wagmi/core/connectors/metaMask'
+import { SiweMessage } from 'siwe'
+
+import 'viem/window'
+import type { GetAccountResult } from '@wagmi/core'
 
 export enum WalletConnector {
   WalletConnect = 'WalletConnect',
@@ -40,9 +44,14 @@ export const useWallet = defineStore('wallet', () => {
     publicClient,
   })
 
-  const { isConnected, isConnecting } = useAccount()
+  const account = reactive<Partial<GetAccountResult>>(getAccount())
+  watchAccount((newAccount: Record<string, any>) => {
+    const keys = Object.keys(newAccount) as (keyof GetAccountResult)[]
+    for (const key of keys)
+      account[key] = newAccount[key]
+  })
 
-  const connect = async (connectorType: WalletConnector = WalletConnector.MetaMask) => {
+  const connect = async (connectorType: WalletConnector = window.ethereum ? WalletConnector.MetaMask : WalletConnector.WalletConnect) => {
     let connector: WalletConnectConnector | MetaMaskConnector
     switch (connectorType) {
       case WalletConnector.MetaMask:
@@ -62,10 +71,28 @@ export const useWallet = defineStore('wallet', () => {
     await wagmiDisconnect()
   }
 
+  const prepareSiweMessage = async (_nonce: MaybeRefOrGetter<string>) => {
+    const nonce = toValue(_nonce)
+    const { chain } = getNetwork()
+
+    const message = new SiweMessage({
+      domain: window.location.host,
+      address: account.address,
+      statement: `Sign in to ${appName}`,
+      uri: window.location.origin,
+      version: '1',
+      chainId: chain?.id,
+      nonce,
+    }).prepareMessage()
+    const signature = await signMessage({ message })
+
+    return { message, signature }
+  }
+
   return {
-    isConnected,
-    isConnecting,
+    ...toRefs(account),
     connect,
     disconnect,
+    prepareSiweMessage,
   }
 })
