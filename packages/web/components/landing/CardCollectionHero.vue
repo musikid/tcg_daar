@@ -11,7 +11,7 @@
                 and can be managed into binders.</p>
         </hgroup>
         <div>
-            <img src="/images/landing/cards-carousel.png" alt="Card collection carousel">
+            <NuxtImg src="/images/landing/cards-carousel.png" alt="Card collection carousel" />
         </div>
     </section>
 </template>

@@ -1,10 +1,6 @@
-<script setup lang="ts">
-const { appName, appLogo } = useAppConfig()
-</script>
-
 <template>
   <div class="relative">
-    <LandingTopBar :app-logo="appLogo" :app-name="appName" class="fixed top-0 left-0 w-screen z1" />
+    <LandingTopBar class="fixed top-0 left-0 w-screen z1" />
     <main class="bg-neutral9 px-10% flex py-8 pt-32 lg:pt-32 xl:pt-0">
       <div class="absolute z0 top--20 left-10 w-100 h-50 blur-5rem rounded-full bg-i-[--main-gradient]"></div>
       <slot />
@@ -18,15 +14,15 @@ const { appName, appLogo } = useAppConfig()
 }
 
 h1 {
-  @apply text-4xl lg:text-8xl font-serif font-bold;
+  @apply text-6xl lg:text-8xl font-serif font-bold;
 }
 
 h2 {
-  @apply text-4xl lg:text-7xl font-serif font-bold;
+  @apply text-5xl lg:text-7xl font-serif font-bold;
 }
 
 p {
-  @apply text-xl lg:text-3xl font-sans;
+  @apply text-2xl lg:text-3xl font-sans;
 }
 
 body,

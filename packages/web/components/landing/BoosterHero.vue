@@ -12,7 +12,7 @@
             </p>
         </hgroup>
         <div class="relative">
-            <img src="/images/landing/booster-cards.png" alt="">
+            <NuxtImg src="/images/landing/booster-cards.png" alt="" />
         </div>
     </section>
 </template>

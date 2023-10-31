@@ -21,9 +21,9 @@ const { appName } = useAppConfig()
         </hgroup>
         <div class="relative xl:flex-1 flex xl:justify-end md:max-w-100%">
             <div class="relative self-center md:self-auto xl:pr-25%">
-                <img class="absolute top-0 left-0 object-cover max-w-100 max-h-100 blur-64 md:blur-100 z0"
+                <NuxtImg class="absolute top-0 left-0 object-cover max-w-100 max-h-100 blur-64 md:blur-100 z0"
                     src="/images/landing/eth-logo.png" alt="" />
-                <img class="object-cover max-w-100 max-h-100 z1" src="/images/landing/eth-logo.png" alt="" />
+                <NuxtImg class="object-cover max-w-100 max-h-100 z1" src="/images/landing/eth-logo.png" alt="" />
             </div>
         </div>
     </section>

@@ -1,10 +1,4 @@
 <script setup lang="ts">
-interface Props {
-  appName: string
-  appLogo: string
-}
-
-const { appName, appLogo } = defineProps<Props>()
 </script>
 
 <template>
@@ -12,7 +6,7 @@ const { appName, appLogo } = defineProps<Props>()
     <div class="flex items-center justify-around flex-row">
       <div>
         <NuxtLink href="/">
-          <img :src="appLogo" :alt="`${appName} Logo`">
+          <Logo />
         </NuxtLink>
       </div>
       <div class="flex items-center gap-16 justify-self-end">

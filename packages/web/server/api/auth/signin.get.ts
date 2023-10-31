@@ -2,7 +2,7 @@ import { generateNonce } from 'siwe'
 
 type SignInResult = { type: 'require_auth' } | { type: 'user'; data: { userId: string } }
 
-export default defineEventHandler(async (event): Promise<SignInResult> => {
+export default defineEventHandler(async (event) => {
   const authReq = auth.handleRequest(event)
   const session = await authReq.validate()
   if (session === null) {

@@ -9,6 +9,6 @@
       </hgroup>
       <slot />
     </div>
-    <img src="images/landing/main-card.png" alt="Glowing Pikachu Pokémon card" />
+    <NuxtImg src="images/landing/main-card.png" alt="Glowing Pikachu Pokémon card" />
   </section>
 </template>
