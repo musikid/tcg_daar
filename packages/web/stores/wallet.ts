@@ -19,6 +19,7 @@ export const useWallet = defineStore('wallet', () => {
   const { chains, publicClient } = configureChains([hardhat], [jsonRpcProvider({
     rpc: () => ({ http: hardhat.rpcUrls.default.http[0] }),
   }), publicProvider()])
+
   const { public: { walletConnectProjectId: projectId }, app: { baseURL } } = useRuntimeConfig()
   const { appName } = useAppConfig()
   const walletConnectMetadata = {

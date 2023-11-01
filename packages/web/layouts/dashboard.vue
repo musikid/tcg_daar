@@ -6,9 +6,8 @@ const toggle = ref(false)
   <div class="h-screen flex overflow-hidden">
     <div class="lg:block min-w-50% md:min-w-25% xl:min-w-15% z1" :class="{ 'block': toggle, 'hidden': !toggle }">
       <DashboardSidebar>
-        <menu class="flex flex-col gap-16">
+        <menu class="flex w-full flex-col gap-16">
           <ul class="flex flex-col gap-4">
-            <DashboardSidebarLink icon="i-mdi-cards" text="Booster management" to="/dashboard/manage" />
             <DashboardSidebarLink icon="i-mdi:application-import" text="Import cards" to="/dashboard/import" />
           </ul>
           <ul class="flex flex-col gap-4">

@@ -6,15 +6,21 @@ export default defineNuxtConfig({
     network: ['localhost'],
   },
   app: {},
+  appConfig: {
+    appName: 'TCG',
+    appLogo: '/favicon.ico',
+  },
   postcss: {},
   security: {
+    // Already handled by lucia
     csrf: false,
-    corsHandler: false,
+    corsHandler: {},
+    // For DevTools
     headers: { crossOriginEmbedderPolicy: process.env.NODE_ENV === 'development' ? 'unsafe-none' : 'require-corp', },
   },
   runtimeConfig: {
-    authJs: {
-      secret: '',
+    pokemonTcgSdk: {
+      apiKey: '',
     },
     public: {
       walletConnectProjectId: '',

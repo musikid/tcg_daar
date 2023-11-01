@@ -1,2 +1,5 @@
 <template>
+    <section>
+
+    </section>
 </template>

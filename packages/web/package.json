@@ -5,6 +5,7 @@
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
+    "typecheck": "nuxt typecheck",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
@@ -17,8 +18,8 @@
     "@nuxt/image": "^1.0.0",
     "@pinia/nuxt": "^0.5.1",
     "@prisma/client": "^5.5.2",
-    "@tcgdex/sdk": "^2.5.1",
     "@unocss/reset": "^0.57.1",
+    "@vueuse/core": "^10.5.0",
     "@wagmi/core": "^1.4.5",
     "@walletconnect/modal": "^2.6.2",
     "lucia": "^2.7.2",
