@@ -17,9 +17,9 @@ const toggle = ref(false)
         </menu>
       </DashboardSidebar>
     </div>
-    <div class="flex flex-col w-full">
+    <div class="flex h-screen flex-col w-full">
       <DashboardTopbar @menu-to="toggle = !toggle" />
-      <main class="p-4 overflow-y-auto">
+      <main class="p-4 h-screen">
         <slot />
       </main>
     </div>

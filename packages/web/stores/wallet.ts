@@ -1,13 +1,14 @@
-import { configureChains, createConfig, getAccount, getNetwork, signMessage, connect as wagmiConnect, disconnect as wagmiDisconnect, watchAccount } from '@wagmi/core'
+import { configureChains, createConfig, getAccount, getContract, getNetwork, getWalletClient, signMessage, connect as wagmiConnect, disconnect as wagmiDisconnect, watchAccount, watchWalletClient } from '@wagmi/core'
 import { hardhat } from '@wagmi/core/chains'
 import { jsonRpcProvider } from '@wagmi/core/providers/jsonRpc'
 import { publicProvider } from '@wagmi/core/providers/public'
 import { WalletConnectConnector } from '@wagmi/core/connectors/walletConnect'
 import { MetaMaskConnector } from '@wagmi/core/connectors/metaMask'
 import { SiweMessage } from 'siwe'
+import type { GetAccountResult, GetWalletClientResult } from '@wagmi/core'
+import hardhatContracts from '#build/contracts/localhost'
 
 import 'viem/window'
-import type { GetAccountResult } from '@wagmi/core'
 
 export enum WalletConnector {
   WalletConnect = 'WalletConnect',
@@ -21,12 +22,12 @@ export const useWallet = defineStore('wallet', () => {
   }), publicProvider()])
 
   const { public: { walletConnectProjectId: projectId }, app: { baseURL } } = useRuntimeConfig()
-  const { appName } = useAppConfig()
+  const { appName, appLogo } = useAppConfig()
   const walletConnectMetadata = {
     name: appName,
     description: `${appName} Connect`,
     url: baseURL,
-    icons: ['https://avatars.githubusercontent.com/u/37784886'],
+    icons: [appLogo],
   }
   const walletConnect = new WalletConnectConnector({
     options: {
@@ -51,6 +52,14 @@ export const useWallet = defineStore('wallet', () => {
     for (const key of keys)
       account[key] = newAccount[key]
   })
+  const walletClient = ref(undefined as GetWalletClientResult | undefined)
+  watchWalletClient({ chainId: hardhat.id }, (newWalletClient) => {
+    walletClient.value = newWalletClient
+  })
+
+  const Booster = computed(() => getContract({ ...hardhatContracts.contracts.Booster, walletClient: walletClient.value! }))
+  const Card = computed(() => getContract({ ...hardhatContracts.contracts.Card, walletClient: walletClient.value! }))
+  const Main = computed(() => getContract({ ...hardhatContracts.contracts.Main, walletClient: walletClient.value! }))
 
   const connect = async (connectorType: WalletConnector = window.ethereum ? WalletConnector.MetaMask : WalletConnector.WalletConnect) => {
     let connector: WalletConnectConnector | MetaMaskConnector
@@ -95,5 +104,10 @@ export const useWallet = defineStore('wallet', () => {
     connect,
     disconnect,
     prepareSiweMessage,
+    publicClient: _config.publicClient,
+    walletClient,
+    Booster,
+    Card,
+    Main,
   }
 })

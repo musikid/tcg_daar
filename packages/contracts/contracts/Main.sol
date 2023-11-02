@@ -70,6 +70,17 @@ contract Main is Ownable, ERC721Holder {
     }
 
     /**
+     * @notice Check if a collection exists.
+     * @param _name Collection name
+     * @return Whether if the collection exists
+     */
+    function hasCollection(
+        string calldata _name
+    ) external view returns (bool) {
+        return address(_collectionsByName[_name]) != address(0);
+    }
+
+    /**
      * @notice Get a collection by name.
      * @param _name  Collection name
      * @return  The collection
@@ -77,7 +88,12 @@ contract Main is Ownable, ERC721Holder {
     function getCollectionByName(
         string calldata _name
     ) external view returns (Collection) {
-        return _collectionsByName[_name];
+        Collection collection = _collectionsByName[_name];
+        require(
+            address(collection) != address(0),
+            "Collection does not exist"
+        );
+        return collection;
     }
 
     /**

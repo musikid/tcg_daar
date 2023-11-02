@@ -10,7 +10,7 @@ export default defineConfig({
     presetWebFonts({
       fonts: {
         serif: 'Rokkitt',
-        sans: ['Titillium Web:300,400,500,600'],
+        sans: ['Titillium Web:300,400,500,600,700'],
         mono: 'Handjet',
       },
     }),
