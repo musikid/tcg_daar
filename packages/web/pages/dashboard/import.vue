@@ -51,7 +51,7 @@ async function onLoadMore() {
 
 <template>
   <section class="p-6" v-infinite-scroll="load">
-    <ul class="lg:(grid grid-cols-2) gap-4">
+    <ul class="xl:(grid grid-cols-2) gap-4">
       <li v-for="set in sets" :key="set.id">
         <DashboardSet v-bind="set" />
       </li>

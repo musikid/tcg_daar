@@ -17,13 +17,17 @@ const goNext = async () => navigateTo('/dashboard')
 const loading = ref(false)
 
 async function clickHandler() {
-  if (!isConnected?.value)
+  if (!isConnected?.value) {
+    loading.value = true
     return await connect().catch((err) => {
       disconnect()
       throw createError({ ...err })
+    }).finally(() => {
+      loading.value = false
     })
+  }
 
-  const { data, pending: pendingNonce, error } = await useFetch('/api/auth/signin', { method: 'get' })
+  const { data, pending: pendingNonce } = await useFetch('/api/auth/signin', { method: 'get' })
   if (!data.value)
     throw createError('Nonce not found')
 
@@ -62,7 +66,6 @@ async function clickHandler() {
     <LandingCardCollectionHero />
   </div>
   <NuxtErrorBoundary @error="console.error">
-    <!-- You use the default slot to render your content -->
     <template #error="{ error, clearError }">
       You can display the error locally here: {{ error }}
       <button @click="clearError">

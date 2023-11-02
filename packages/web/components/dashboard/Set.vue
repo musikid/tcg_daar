@@ -9,6 +9,15 @@ interface Props {
     cards: TCGCard[]
 }
 
+const isCollapsed = ref(false)
+const chevronClass = computed(() => ({
+    'rotate-0': !isCollapsed.value,
+    'rotate-90': isCollapsed.value,
+}))
+const collapsibleClass = computed(() => ({
+    'h-0': !isCollapsed.value,
+    'h-full': isCollapsed.value,
+}))
 defineProps<Props>()
 </script>
 
@@ -23,10 +32,18 @@ defineProps<Props>()
                 <h4 class="text-sm md:text-lg">{{ count }} cards</h4>
             </div>
         </hgroup>
-        <ul class="grid bg-background-main rounded-3xl p-6 grid-cols-2 xl:grid-cols-3 gap-4 h-full">
-            <li class="w-full" v-for="item in cards" :key="item.id">
-                <DashboardCard :title="item.name" :image="item.images.small" />
-            </li>
-        </ul>
+        <section class="bg-background-main p-8">
+            <div class="font-sans font-bold text-lg flex justify-center border-b-1 pb-4 border-b-[#1E1E1E]">
+                <button type="button" class="flex items-center gap-2" @click="isCollapsed = !isCollapsed">
+                    <h4 class="">Featured cards</h4>
+                    <div class="transition-all h-7 w-7 i-mdi:chevron-right" :class="chevronClass"></div>
+                </button>
+            </div>
+            <ul :class="collapsibleClass" class="overflow-hidden transition-all grid rounded-3xl p-6 grid-cols-2 gap-4">
+                <li class="w-full" v-for="item in cards" :key="item.id">
+                    <DashboardCard :title="item.name" :image="item.images.small" />
+                </li>
+            </ul>
+        </section>
     </article>
 </template>
