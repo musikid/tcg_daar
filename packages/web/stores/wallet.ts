@@ -1,10 +1,9 @@
-import { configureChains, createConfig, getAccount, getContract, getNetwork, getWalletClient, signMessage, connect as wagmiConnect, disconnect as wagmiDisconnect, watchAccount, watchWalletClient } from '@wagmi/core'
+import { configureChains, createConfig, getAccount, getContract, getNetwork, signMessage, connect as wagmiConnect, disconnect as wagmiDisconnect, watchAccount, watchWalletClient } from '@wagmi/core'
 import { hardhat } from '@wagmi/core/chains'
 import { jsonRpcProvider } from '@wagmi/core/providers/jsonRpc'
 import { publicProvider } from '@wagmi/core/providers/public'
 import { WalletConnectConnector } from '@wagmi/core/connectors/walletConnect'
 import { MetaMaskConnector } from '@wagmi/core/connectors/metaMask'
-import { SiweMessage } from 'siwe'
 import type { GetAccountResult, GetWalletClientResult } from '@wagmi/core'
 import hardhatContracts from '#build/contracts/localhost'
 
@@ -22,7 +21,7 @@ export const useWallet = defineStore('wallet', () => {
   }), publicProvider()])
 
   const { public: { walletConnectProjectId: projectId }, app: { baseURL } } = useRuntimeConfig()
-  const { appName, appLogo } = useAppConfig()
+  const { appName, appLogo } = useAppConfig() as Record<string, string>
   const walletConnectMetadata = {
     name: appName,
     description: `${appName} Connect`,
@@ -82,18 +81,27 @@ export const useWallet = defineStore('wallet', () => {
   }
 
   const prepareSiweMessage = async (_nonce: MaybeRefOrGetter<string>) => {
-    const nonce = toValue(_nonce)
     const { chain } = getNetwork()
-
-    const message = new SiweMessage({
+    const data = {
       domain: window.location.host,
       address: account.address,
       statement: `Sign in to ${appName}`,
       uri: window.location.origin,
       version: '1',
       chainId: chain?.id,
-      nonce,
-    }).prepareMessage()
+      nonce: toValue(_nonce),
+      issuedAt: new Date().toISOString(),
+    }
+    const message = `${data.domain} wants you to sign in with your Ethereum account:
+${data.address}
+
+${data.statement}
+
+URI: ${data.uri}
+Version: ${data.version}
+Chain ID: ${data.chainId}
+Nonce: ${data.nonce}
+Issued At: ${data.issuedAt}`
     const signature = await signMessage({ message })
 
     return { message, signature }
