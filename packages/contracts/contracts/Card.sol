@@ -8,8 +8,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
  * @title Card
  * @dev NFT card with metadata URI.
  * @notice This contract (based on [ERC721](https://docs.openzeppelin.com/contracts/5.x/api/token/erc721))
- * is used to mint cards
- * and store their metadata URIs
+ * is used to mint cards and store their metadata URIs
  * according to [ERC721URIStorage](https://docs.openzeppelin.com/contracts/5.x/api/token/erc721#ERC721URIStorage).
  */
 contract Card is Ownable, ERC721URIStorage {

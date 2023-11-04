@@ -5,5 +5,5 @@ export default defineEventHandler(async (event) => {
     })
 
     // Return an NFT metadata object
-    return { ...card, id: undefined, set_id: undefined }
+    return { ...card, id: undefined, set_id: undefined, original_id: undefined }
 })

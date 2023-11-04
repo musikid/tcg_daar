@@ -16,13 +16,26 @@ model User {
   id   String @id @map("_id")
   role Role   @default(USER)
   keys Key[]
+  Binder Binder[]
 
   @@index([id])
   @@map("user")
 }
 
+model Binder {
+  id          String @id @map("_id")
+  user_id     String
+  name       String
+  cards       Card[]
+  user        User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@index([id, user_id])
+  @@map("binder")
+}
+
 model Key {
   id              String  @id @map("_id")
+  // Hashed password (not used since we have Sign in with Ethereum)
   hashed_password String?
   user_id         String
   user            User    @relation(fields: [user_id], references: [id], onDelete: Cascade)
@@ -38,6 +51,11 @@ model Card {
   name        String
   // ID of the set this card belongs to, in external API
   set_id      String
+  // Original ID of the card in external API
+  original_id String
+  // ID of the binder this card belongs to
+  binder_id   String?
+  binder      Binder? @relation(fields: [binder_id], references: [id], onDelete: Cascade)
 
   @@index([id, set_id])
   @@map("card")

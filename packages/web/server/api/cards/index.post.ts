@@ -25,6 +25,7 @@ export default defineEventHandler(async (event) => {
                     name: card.name,
                     description: card.name,
                     image: card.images.large,
+                    original_id: card.id,
                     set_id: setId,
                 }))
             })
