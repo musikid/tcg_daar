@@ -7,8 +7,7 @@
     "deploy": "graph deploy --node https://api.studio.thegraph.com/deploy/ tcg_card",
     "create-local": "graph create --node http://localhost:8020/ tcg_card",
     "remove-local": "graph remove --node http://localhost:8020/ tcg_card",
-    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 tcg_card",
-    "test": "graph test"
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 tcg_card"
   },
   "dependencies": {
     "@graphprotocol/graph-cli": "0.60.0",
