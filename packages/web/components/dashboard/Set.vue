@@ -19,11 +19,12 @@ const collapsibleClass = computed(() => ({
     'h-full': isCollapsed.value,
 }))
 defineProps<Props>()
+defineEmits(['header'])
 </script>
 
 <template>
     <article class="bg-background-element rounded-3xl shadow flex flex-col gap-6 p-8 my-6">
-        <hgroup class="inline-flex gap-6 items-center">
+        <hgroup class="inline-flex gap-6 items-center cursor-pointer" @click="(e) => $emit('header', e)">
             <div class="w-25% md:w-15% xl:w-10%">
                 <img class="h-full w-full" :src="logo">
             </div>

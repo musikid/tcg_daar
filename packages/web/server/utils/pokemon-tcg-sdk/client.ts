@@ -1,15 +1,4 @@
-export const API_URL: string = 'https://api.pokemontcg.io/v2'
-
-interface ReturnValue<T> {
-  data: T
-}
-
-interface PaginatedReturnValue<T> extends ReturnValue<T> {
-  totalCount: number
-  pageSize: number
-  page: number
-  count: number
-}
+import { ReturnValue, PaginatedReturnValue } from './api'
 
 export class TCGClient {
   static async get<T>(endpoint: string, params?: ConstructorParameters<typeof URLSearchParams>[0]): Promise<ReturnValue<T> & Partial<PaginatedReturnValue<T>>> {

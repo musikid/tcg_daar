@@ -47,6 +47,12 @@ export default defineEventHandler(async (event) => {
     })
   }
 
+  const authReq = auth.handleRequest(event)
+  const hasSession = await authReq.validate()
+  if (hasSession) {
+    return sendRedirect(event, '/dashboard')
+  }
+
   const address = res.data.address
   let user: User
   try {
@@ -56,7 +62,7 @@ export default defineEventHandler(async (event) => {
     if (e instanceof LuciaError && e.message === 'AUTH_INVALID_USER_ID') {
       user = await auth.createUser({
         userId: address,
-        key: { providerId: ProviderId.siwe, providerUserId: address, password: null },
+        key: { providerId: ProviderId.SIWE, providerUserId: address, password: null },
         attributes: {} as any,
       })
     }
@@ -72,7 +78,6 @@ export default defineEventHandler(async (event) => {
     userId: user.id,
     attributes: {},
   })
-  const authReq = auth.handleRequest(event)
   authReq.setSession(session)
 
   return sendRedirect(event, '/dashboard')

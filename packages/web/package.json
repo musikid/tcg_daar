@@ -28,7 +28,6 @@
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@iconify-json/carbon": "^1.1.21",
     "@iconify-json/logos": "^1.1.37",
     "@iconify-json/mdi": "^1.1.55",
     "@iconify-json/svg-spinners": "^1.1.2",
@@ -40,6 +39,7 @@
     "@unocss/transformer-variant-group": "^0.57.1",
     "@vueuse/core": "^10.5.0",
     "@vueuse/nuxt": "^10.5.0",
+    "h3": "*",
     "nuxt": "^3.8.0",
     "prisma": "^5.5.2",
     "unocss": "^0.57.1",

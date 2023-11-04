@@ -6,6 +6,6 @@
 
 <style lang="postcss">
 body {
-  @apply text-white;
+  @apply text-white relative;
 }
 </style>

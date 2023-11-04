@@ -1,7 +1,4 @@
-interface CardImage {
-  small: string
-  large: string
-}
+import { PaginatedReturnValue, ReturnValue } from "./api"
 
 export class CardQueryBuilder {
   id?: string
@@ -36,6 +33,11 @@ export class CardQueryBuilder {
   }
 }
 
+interface CardImage {
+  small: string
+  large: string
+}
+
 export class TCGCard {
   id: string
   name: string
@@ -50,21 +52,27 @@ export class TCGCard {
   }
 
   static async find(id: string): Promise<TCGCard> {
-    const { data } = await useFetch(`/api/tcg/provider/cards/${id}`)
-    const card = data.value!.data as TCGCard
+    const { data: card } = await $fetch<ReturnValue<TCGCard>>(`/cards/${id}`, { baseURL: API_URL })
     return new TCGCard(card.id, card.name, card.images)
   }
 
-  static async search(query: string, page: number, pageSize: number) {
-    const { data } = await useFetch(`/api/tcg/provider/cards`, {
+  static async search(query: string, _page: number, _pageSize: number) {
+    const { data: cards, count, totalCount, page, pageSize } = await $fetch<PaginatedReturnValue<TCGCard[]>>(`/cards`, {
+      baseURL: API_URL,
       query: {
         q: query,
-        page,
-        pageSize,
+        page: _page,
+        pageSize: _pageSize,
         select: TCGCard.select.join(','),
       },
     })
-    const { data: cards, count, totalCount } = data.value!
-    return { cards: (cards as TCGCard[]).map(card => new TCGCard(card.id, card.name, card.images)), count, totalCount, page, pageSize }
+    return {
+      cards: cards
+        .map(card => new TCGCard(card.id, card.name, card.images)),
+      count,
+      totalCount,
+      page,
+      pageSize
+    }
   }
 }

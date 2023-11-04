@@ -7,7 +7,7 @@ import { unstorage } from '@lucia-auth/adapter-session-unstorage'
 import { createStorage } from 'unstorage'
 
 export enum ProviderId {
-  siwe = 'siwe',
+  SIWE = 'siwe',
 }
 
 const client = new PrismaClient()

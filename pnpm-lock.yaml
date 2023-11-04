@@ -127,9 +127,6 @@ importers:
         specifier: ^3.22.4
         version: 3.22.4
     devDependencies:
-      '@iconify-json/carbon':
-        specifier: ^1.1.21
-        version: 1.1.21
       '@iconify-json/logos':
         specifier: ^1.1.37
         version: 1.1.37
@@ -163,6 +160,9 @@ importers:
       '@vueuse/nuxt':
         specifier: ^10.5.0
         version: 10.5.0(nuxt@3.8.0)(vue@3.3.7)
+      h3:
+        specifier: '*'
+        version: 1.8.2
       nuxt:
         specifier: ^3.8.0
         version: 3.8.0(eslint@8.52.0)(typescript@5.2.2)(vite@4.5.0)
@@ -1600,12 +1600,6 @@ packages:
 
   /@humanwhocodes/object-schema@2.0.1:
     resolution: {integrity: sha512-dvuCeX5fC9dXgJn9t+X5atfmgQAzUOWqS1254Gh0m6i8wKd10ebXkfNKiRK+1GWi/yTvvLDHpoxLr0xxxeslWw==}
-    dev: true
-
-  /@iconify-json/carbon@1.1.21:
-    resolution: {integrity: sha512-bK2cMVM4noBU+FGlay433flpXLRzQu0ED095iAnoO6ka3yb4uz0lvb8acpN5gthyGLJ89C4HpfIbQZLQnMKQww==}
-    dependencies:
-      '@iconify/types': 2.0.0
     dev: true
 
   /@iconify-json/logos@1.1.37:

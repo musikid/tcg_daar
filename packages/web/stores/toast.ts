@@ -1,4 +1,6 @@
-export type ToastType = 'success' | 'error' | 'warning' | 'info'
+export const ToastTypes = ['success', 'error', 'warning', 'info'] as const
+
+export type ToastType = typeof ToastTypes[number]
 
 type ToastId = number
 
@@ -12,7 +14,7 @@ interface Toast {
   onClose?: () => void
 }
 
-interface ToastParams {
+export interface ToastParams {
   title: string
   description: string
   type: ToastType

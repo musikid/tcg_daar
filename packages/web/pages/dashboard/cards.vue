@@ -4,7 +4,11 @@ const { publicClient } = useWallet()
 
 const cardsReceivedFilter = await CardContract.value.createEventFilter.Transfer({ to: address!.value })
 const logs = await publicClient.getFilterLogs({ filter: cardsReceivedFilter })
-console.log(logs)
+console.info(logs)
 </script>
 
-<template></template>
+<template>
+    <section>
+
+    </section>
+</template>

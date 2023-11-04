@@ -30,3 +30,15 @@ model Key {
   @@index([id, user_id])
   @@map("key")
 }
+
+model Card {
+  id          String @id @map("_id")
+  description String
+  image       String
+  name        String
+  // ID of the set this card belongs to, in external API
+  set_id      String
+
+  @@index([id, set_id])
+  @@map("card")
+}
