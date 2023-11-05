@@ -1,0 +1,23 @@
+query Cards {
+  cards {
+    id
+    owner
+    url
+  }
+}
+
+query MyBooster($owner: Bytes) {
+  boosters(where: {owner: $owner}) {
+    id
+    owner
+    url
+  }
+}
+
+query MyCards($owner: Bytes) {
+  cards(where: {owner: $owner}) {
+    id
+    owner
+    url
+  }
+}

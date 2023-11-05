@@ -13,9 +13,9 @@ enum Role {
 }
 
 model User {
-  id   String @id @map("_id")
-  role Role   @default(USER)
-  keys Key[]
+  id     String   @id @map("_id")
+  role   Role     @default(USER)
+  keys   Key[]
   Binder Binder[]
 
   @@index([id])
@@ -23,11 +23,11 @@ model User {
 }
 
 model Binder {
-  id          String @id @map("_id")
-  user_id     String
-  name       String
-  cards       Card[]
-  user        User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  id      String @id @map("_id")
+  user_id String
+  name    String
+  cards   Card[]
+  user    User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
 
   @@index([id, user_id])
   @@map("binder")
@@ -44,19 +44,37 @@ model Key {
   @@map("key")
 }
 
-model Card {
+model Set {
   id          String @id @map("_id")
+  name        String
+  original_id String
+  cards       Card[]
+
+  @@index([id])
+  @@map("set")
+}
+
+model Card {
+  id          String  @id @map("_id")
   description String
   image       String
   name        String
-  // ID of the set this card belongs to, in external API
-  set_id      String
   // Original ID of the card in external API
   original_id String
-  // ID of the binder this card belongs to
+  // ID of the binder might card belongs to
   binder_id   String?
   binder      Binder? @relation(fields: [binder_id], references: [id], onDelete: Cascade)
+  set_id      String
+  set         Set     @relation(fields: [set_id], references: [id], onDelete: Cascade)
 
   @@index([id, set_id])
   @@map("card")
+}
+
+model Booster {
+  id          String @id @map("_id")
+  name        String
+
+  @@index([id])
+  @@map("booster")
 }

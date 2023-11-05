@@ -50,6 +50,13 @@ const manageSetImport = (set: SetElement) => {
   }
 }
 
+async function importSets() {
+  await useFetch('/api/cards', {
+    method: 'POST',
+    body: { setIds: [...setsToImport].map(set => set.id) }
+  })
+}
+
 async function onLoadMore() {
   if (end.value)
     return
@@ -97,7 +104,7 @@ async function onLoadMore() {
           <DashboardButton @click="reset" class="bg-[#e811008f]" icon="i-mdi:exit-to-app">
             Abort
           </DashboardButton>
-          <DashboardButton class="bg-primary" icon="i-mdi:exit-to-app">
+          <DashboardButton @click="importSets" class="bg-primary" icon="i-mdi:exit-to-app">
             Import
           </DashboardButton>
         </div>

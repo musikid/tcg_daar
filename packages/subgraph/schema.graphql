@@ -1,4 +1,11 @@
 type Card @entity {
   id: ID!
+  url: String!
+  owner: Bytes! # address
+}
+
+type Booster @entity {
+  id: String!
+  url: String!
   owner: Bytes! # address
 }

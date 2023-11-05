@@ -1,0 +1,8 @@
+sources:
+  - name: tcg_card
+    handler:
+      graphql:
+        endpoint: http://127.0.0.1:8000/subgraphs/name/tcg_card
+
+documents:
+  - ./queries.graphql

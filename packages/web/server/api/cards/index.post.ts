@@ -13,22 +13,30 @@ export default defineEventHandler(async (event) => {
             cards.push(...newCards)
             total = totalCount
         } while (cards.length < total)
-
-        return { setId, cards }
+        const set = await TCGSet.find(setId)
+        return { set, cards }
     }))
     const { db } = event.context
+
+    // TODO: This is a bit of a mess, but it works. I'm not sure how to do this better.
+    // Create the sets and its cards in parallel.
     await Promise.all(
-        setCards.map(({ cards: setCards, setId }) =>
-            db.card.createMany({
-                data: setCards.map(card => ({
-                    id: card.id,
-                    name: card.name,
-                    description: card.name,
-                    image: card.images.large,
-                    original_id: card.id,
-                    set_id: setId,
-                }))
-            })
+        setCards.flatMap(({ cards: setCards, set }) =>
+            [
+                db.set.create({
+                    data: { id: set.id, name: set.name, original_id: set.id },
+                }),
+                db.card.createMany({
+                    data: setCards.map(card => ({
+                        id: card.id,
+                        name: card.name,
+                        description: card.name,
+                        image: card.images.large,
+                        original_id: card.id,
+                        set_id: set.id,
+                    }))
+                })
+            ]
         ))
     const cards = await db.card.findMany({
         where: {

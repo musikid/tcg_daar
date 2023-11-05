@@ -8,13 +8,13 @@ dataSources:
     source:
       address: '0x5FbDB2315678afecb367f032d93F642f64180aa3'
       abi: Card
-      startBlock: 0
+      startBlock: 1
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
-        - Transfer
+        - Card
       abis:
         - name: Card
           file: ./abis/Card.json
@@ -22,3 +22,23 @@ dataSources:
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
       file: ./src/card.ts
+  - kind: ethereum
+    name: Booster
+    network: localhost
+    source:
+      address: '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512'
+      abi: Booster
+      startBlock: 1
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Booster
+      abis:
+        - name: Booster
+          file: ./abis/Booster.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+      file: ./src/booster.ts
