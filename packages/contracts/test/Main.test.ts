@@ -38,12 +38,12 @@ describe('main contract', () => {
     expect(await coll.name()).to.equal(collName)
   })
 
-  it('should not create a collection if not owner', async () => {
+  it('should not create a collection if not authorized', async () => {
     const [, notOwner] = await ethers.getSigners()
     const { main } = await loadFixture(init)
     const collName = 'test'
 
-    await expect(main.connect(notOwner).createCollection(collName, 1)).to.be.revertedWithCustomError(main, 'OwnableUnauthorizedAccount')
+    await expect(main.connect(notOwner).createCollection(collName, 1)).to.be.revertedWithCustomError(main, 'AccessControlUnauthorizedAccount')
   })
 
   it('should mint a card for a collection', async () => {
@@ -86,7 +86,7 @@ describe('main contract', () => {
     expect(await collContract.hasCard(tokenIds[1])).to.be.true
   })
 
-  it('should not mint card for a collection if not owner', async () => {
+  it('should not mint card for a collection if not authorized', async () => {
     const [, notOwner] = await ethers.getSigners()
     const { main } = await loadFixture(init)
     const collName = 'test'
@@ -94,7 +94,7 @@ describe('main contract', () => {
     const coll = await main.getCollectionByName(collName)
 
     const uri = 'https://example.com/'
-    await expect(main.connect(notOwner).mintCardForCollection(coll, uri)).to.be.revertedWithCustomError(main, 'OwnableUnauthorizedAccount')
+    await expect(main.connect(notOwner).mintCardForCollection(coll, uri)).to.be.revertedWithCustomError(main, 'AccessControlUnauthorizedAccount')
   })
 
   it('should transfer a card', async () => {
@@ -116,7 +116,7 @@ describe('main contract', () => {
     expect(tx).to.emit(card, 'Transfer').withArgs(mainAddr, to.address, tokenId)
   })
 
-  it('should not transfer a card if not owner', async () => {
+  it('should not transfer a card if not authorized', async () => {
     const [, notOwner] = await ethers.getSigners()
     const { main, card } = await loadFixture(init)
     const collName = 'test'
@@ -127,7 +127,7 @@ describe('main contract', () => {
     await (await main.mintCardForCollection(coll, uri)).wait()
 
     const tokenId = (await getTokenIds(card, main.target))[0]
-    await expect(main.connect(notOwner).transferCard(notOwner.address, tokenId)).to.be.revertedWithCustomError(main, 'OwnableUnauthorizedAccount')
+    await expect(main.connect(notOwner).transferCard(notOwner.address, tokenId)).to.be.revertedWithCustomError(main, 'AccessControlUnauthorizedAccount')
   })
 
   it('should not transfer a card if not owner of card', async () => {
@@ -189,7 +189,7 @@ describe('main contract', () => {
     expect(tx).to.emit(card, 'Transfer').withArgs(mainAddr, to.address, cardIds)
   })
 
-  it('should not mint booster of cards if not owner', async () => {
+  it('should not mint booster of cards if not authorized', async () => {
     const [, notOwner] = await ethers.getSigners()
     const { main, card } = await loadFixture(init)
     const collName = 'test'
@@ -200,6 +200,6 @@ describe('main contract', () => {
     await (await main.mintCardForCollection(coll, uri)).wait()
 
     const cardIds = (await getTokenIds(card, main.target))
-    await expect(main.connect(notOwner).mintBooster(notOwner.address, '', cardIds)).to.be.revertedWithCustomError(main, 'OwnableUnauthorizedAccount')
+    await expect(main.connect(notOwner).mintBooster(notOwner.address, '', cardIds)).to.be.revertedWithCustomError(main, 'AccessControlUnauthorizedAccount')
   })
 })

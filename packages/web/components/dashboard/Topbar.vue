@@ -1,5 +1,6 @@
 <script setup lang="ts">
 defineEmits(['menuTo'])
+defineProps<{ disconnect: () => void }>()
 </script>
 
 <template>
@@ -8,8 +9,11 @@ defineEmits(['menuTo'])
       <button type="button" @click="$emit('menuTo')" class="hfull wfull myauto h-8 w-8 text-white i-mdi-menu">
       </button>
     </div>
-    <div class="mx-auto my-auto">
-      <DashboardSearchBar />
+    <div class="my-auto flex-1 flex">
+      <DashboardSearchBar class="m-auto" />
+      <button type="button" class="self-end m-auto flex-1 flex justify-end" @click="disconnect">
+        <div class="i-mdi:logout  h-10 w-10"></div>
+      </button>
     </div>
   </div>
 </template>

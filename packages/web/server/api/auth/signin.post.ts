@@ -14,7 +14,6 @@ export default defineEventHandler(async (event) => {
   const body = await readBody(event)
   const bodyParseResult = schema.safeParse(body)
   if (!bodyParseResult.success) {
-    console.error(bodyParseResult.error)
     throw createError({
       statusCode: 400,
       statusMessage: 'Bad Request',
@@ -34,14 +33,12 @@ export default defineEventHandler(async (event) => {
     })
 
     if (!res.success) {
-      console.error(res.error)
       throw createError({
         status: 403,
       })
     }
   }
   catch (e) {
-    console.error(e)
     throw createError({
       status: 401,
     })
@@ -67,7 +64,6 @@ export default defineEventHandler(async (event) => {
       })
     }
     else {
-      console.error(e)
       throw createError({
         status: 500,
       })

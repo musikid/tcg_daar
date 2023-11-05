@@ -628,6 +628,12 @@ const merger = new(BareMerger as any)({
         },
         location: 'CardsDocument.graphql'
       },{
+        document: CardsByIdDocument,
+        get rawSDL() {
+          return printWithCache(CardsByIdDocument);
+        },
+        location: 'CardsByIdDocument.graphql'
+      },{
         document: MyBoosterDocument,
         get rawSDL() {
           return printWithCache(MyBoosterDocument);
@@ -682,6 +688,13 @@ export type CardsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type CardsQuery = { cards: Array<Pick<Card, 'id' | 'owner' | 'url'>> };
 
+export type CardsByIdQueryVariables = Exact<{
+  id_in?: InputMaybe<Array<Scalars['ID']> | Scalars['ID']>;
+}>;
+
+
+export type CardsByIdQuery = { cards: Array<Pick<Card, 'id' | 'owner' | 'url'>> };
+
 export type MyBoosterQueryVariables = Exact<{
   owner?: InputMaybe<Scalars['Bytes']>;
 }>;
@@ -706,6 +719,15 @@ export const CardsDocument = gql`
   }
 }
     ` as unknown as DocumentNode<CardsQuery, CardsQueryVariables>;
+export const CardsByIdDocument = gql`
+    query CardsById($id_in: [ID!]) {
+  cards(where: {id_in: $id_in}) {
+    id
+    owner
+    url
+  }
+}
+    ` as unknown as DocumentNode<CardsByIdQuery, CardsByIdQueryVariables>;
 export const MyBoosterDocument = gql`
     query MyBooster($owner: Bytes) {
   boosters(where: {owner: $owner}) {
@@ -728,11 +750,15 @@ export const MyCardsDocument = gql`
 
 
 
+
 export type Requester<C = {}, E = unknown> = <R, V>(doc: DocumentNode, vars?: V, options?: C) => Promise<R> | AsyncIterable<R>
 export function getSdk<C, E>(requester: Requester<C, E>) {
   return {
     Cards(variables?: CardsQueryVariables, options?: C): Promise<CardsQuery> {
       return requester<CardsQuery, CardsQueryVariables>(CardsDocument, variables, options) as Promise<CardsQuery>;
+    },
+    CardsById(variables?: CardsByIdQueryVariables, options?: C): Promise<CardsByIdQuery> {
+      return requester<CardsByIdQuery, CardsByIdQueryVariables>(CardsByIdDocument, variables, options) as Promise<CardsByIdQuery>;
     },
     MyBooster(variables?: MyBoosterQueryVariables, options?: C): Promise<MyBoosterQuery> {
       return requester<MyBoosterQuery, MyBoosterQueryVariables>(MyBoosterDocument, variables, options) as Promise<MyBoosterQuery>;

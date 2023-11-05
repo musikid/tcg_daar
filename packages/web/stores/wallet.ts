@@ -6,6 +6,7 @@ import { WalletConnectConnector } from '@wagmi/core/connectors/walletConnect'
 import { MetaMaskConnector } from '@wagmi/core/connectors/metaMask'
 import type { GetAccountResult, GetWalletClientResult } from '@wagmi/core'
 import hardhatContracts from '#build/contracts/localhost'
+import CollectionInfo from '#build/contracts/Collection.json'
 
 import 'viem/window'
 
@@ -59,6 +60,7 @@ export const useWallet = defineStore('wallet', () => {
   const Booster = computed(() => getContract({ ...hardhatContracts.contracts.Booster, walletClient: walletClient.value! }))
   const Card = computed(() => getContract({ ...hardhatContracts.contracts.Card, walletClient: walletClient.value! }))
   const Main = computed(() => getContract({ ...hardhatContracts.contracts.Main, walletClient: walletClient.value! }))
+  const CollectionAbi = CollectionInfo.abi
 
   const connect = async (connectorType: WalletConnector = window.ethereum ? WalletConnector.MetaMask : WalletConnector.WalletConnect) => {
     let connector: WalletConnectConnector | MetaMaskConnector
@@ -117,5 +119,6 @@ Issued At: ${data.issuedAt}`
     Booster,
     Card,
     Main,
+    CollectionAbi,
   }
 })

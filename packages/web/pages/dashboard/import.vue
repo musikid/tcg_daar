@@ -7,6 +7,7 @@ useSeoMeta({
 })
 
 const { Set: TCGSet, Card } = useTCG()
+const { Main } = storeToRefs(useWallet())
 
 interface SetElement {
   id: string
@@ -51,10 +52,16 @@ const manageSetImport = (set: SetElement) => {
 }
 
 async function importSets() {
-  await useFetch('/api/cards', {
-    method: 'POST',
-    body: { setIds: [...setsToImport].map(set => set.id) }
-  })
+  for (const set of setsToImport) {
+    console.log(set.id)
+    const { cards } = await $fetch('/api/cards/', {
+      method: 'post',
+      body: { setId: set.id }
+    })
+    await Main.value.write.createCollection([set.id, BigInt(set.count)])
+    const collAddr = await Main.value.read.getCollectionByName([set.id])
+    await Main.value.write.mintCardsForCollection([collAddr, cards.map(c => c.url)])
+  }
 }
 
 async function onLoadMore() {

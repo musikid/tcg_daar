@@ -6,6 +6,14 @@ query Cards {
   }
 }
 
+query CardsById($id_in: [ID!]) {
+  cards(where: {id_in: $id_in}) {
+    id
+    owner
+    url
+  }
+}
+
 query MyBooster($owner: Bytes) {
   boosters(where: {owner: $owner}) {
     id

@@ -23,7 +23,7 @@ model User {
 }
 
 model Binder {
-  id      String @id @map("_id")
+  id      String @id @map("_id") @default(uuid())
   user_id String
   name    String
   cards   Card[]

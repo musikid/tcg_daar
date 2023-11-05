@@ -5,7 +5,7 @@ import "./Collection.sol";
 import "./Booster.sol";
 import "./Card.sol";
 
-import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/access/AccessControl.sol";
 import "@openzeppelin/contracts/token/ERC721/utils/ERC721Holder.sol";
 
 /**
@@ -16,7 +16,7 @@ import "@openzeppelin/contracts/token/ERC721/utils/ERC721Holder.sol";
  * since we assume it's the owner of the Card contract
  * and therefore is the original owner of all cards.
  */
-contract Main is Ownable, ERC721Holder {
+contract Main is AccessControl, ERC721Holder {
     /**
      * @dev Array of all collections
      */
@@ -34,6 +34,9 @@ contract Main is Ownable, ERC721Holder {
      */
     mapping(string => Collection) private _collectionsByName;
 
+    bytes32 public constant MINTER_ROLE = keccak256("MINTER_ROLE");
+    bytes32 public constant COLLECTION_ROLE = keccak256("COLLECTION_ROLE");
+
     /**
      * @notice Constructor, which takes the address of the Card contract.
      * @param cardContract Card contract address
@@ -41,7 +44,11 @@ contract Main is Ownable, ERC721Holder {
     constructor(
         address cardContract,
         address boosterContract
-    ) Ownable(_msgSender()) {
+    ) {
+        _grantRole(DEFAULT_ADMIN_ROLE, _msgSender());
+        _grantRole(MINTER_ROLE, _msgSender());
+        _grantRole(COLLECTION_ROLE, _msgSender());
+
         _cardContract = Card(cardContract);
         _boosterContract = Booster(boosterContract);
         _cardContract.setApprovalForAll(boosterContract, true);
@@ -56,7 +63,7 @@ contract Main is Ownable, ERC721Holder {
     function createCollection(
         string calldata _name,
         uint256 _expectedCount
-    ) external onlyOwner returns (Collection) {
+    ) external onlyRole(COLLECTION_ROLE) returns (Collection) {
         require(bytes(_name).length > 0, "Name cannot be empty");
         require(
             address(_collectionsByName[_name]) == address(0),
@@ -74,9 +81,7 @@ contract Main is Ownable, ERC721Holder {
      * @param _name Collection name
      * @return Whether if the collection exists
      */
-    function hasCollection(
-        string calldata _name
-    ) external view returns (bool) {
+    function hasCollection(string calldata _name) external view returns (bool) {
         return address(_collectionsByName[_name]) != address(0);
     }
 
@@ -89,10 +94,7 @@ contract Main is Ownable, ERC721Holder {
         string calldata _name
     ) external view returns (Collection) {
         Collection collection = _collectionsByName[_name];
-        require(
-            address(collection) != address(0),
-            "Collection does not exist"
-        );
+        require(address(collection) != address(0), "Collection does not exist");
         return collection;
     }
 
@@ -126,7 +128,7 @@ contract Main is Ownable, ERC721Holder {
     function mintCardForCollection(
         Collection _collection,
         string memory _cardUri
-    ) public onlyOwner returns (uint256) {
+    ) public onlyRole(MINTER_ROLE) returns (uint256) {
         // Mint a new card and add it to the collection
         uint256 cardId = _cardContract.mint(address(this), _cardUri);
         _collection.addCard(cardId);
@@ -140,7 +142,7 @@ contract Main is Ownable, ERC721Holder {
     function mintCardsForCollection(
         Collection _collection,
         string[] memory _cardUris
-    ) external onlyOwner returns (uint256[] memory) {
+    ) external onlyRole(MINTER_ROLE) returns (uint256[] memory) {
         uint256 count = _cardUris.length;
         uint256[] memory cardIds = new uint256[](count);
         for (uint256 i = 0; i < count; i++) {
@@ -154,7 +156,7 @@ contract Main is Ownable, ERC721Holder {
      * @param _to  Address to transfer to
      * @param _cardId  Card id
      */
-    function transferCard(address _to, uint256 _cardId) public onlyOwner {
+    function transferCard(address _to, uint256 _cardId) public onlyRole(MINTER_ROLE) {
         _cardContract.safeTransferFrom(address(this), _to, _cardId);
     }
 
@@ -166,7 +168,7 @@ contract Main is Ownable, ERC721Holder {
     function transferCards(
         address _to,
         uint256[] calldata _cardIds
-    ) external onlyOwner {
+    ) external onlyRole(MINTER_ROLE) {
         for (uint256 i = 0; i < _cardIds.length; i++) {
             transferCard(_to, _cardIds[i]);
         }
@@ -185,7 +187,7 @@ contract Main is Ownable, ERC721Holder {
         address _to,
         string calldata _boosterUri,
         uint256[] calldata _cardIds
-    ) external onlyOwner returns (uint256) {
+    ) external onlyRole(MINTER_ROLE) returns (uint256) {
         return _boosterContract.mint(_to, _boosterUri, _cardIds);
     }
 }

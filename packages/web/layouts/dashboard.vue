@@ -1,5 +1,10 @@
 <script setup lang="ts">
 const toggle = ref(false)
+const { disconnect } = useWallet()
+const logout = () => {
+  disconnect()
+  navigateTo('/')
+}
 </script>
 
 <template>
@@ -11,6 +16,7 @@ const toggle = ref(false)
             <DashboardSidebarLink icon="i-mdi:application-import" text="Import cards" to="/dashboard/import" />
           </ul>
           <ul class="flex flex-col gap-4">
+            <DashboardSidebarLink icon="i-mdi:book" text="My Cards" to="/dashboard/my-cards" />
             <DashboardSidebarLink icon="i-mdi:book-open-blank-variant" text="Cards" to="/dashboard/cards" />
             <DashboardSidebarLink icon="i-mdi:gift-open" text="Booster" to="/dashboard/booster" />
           </ul>
@@ -18,7 +24,7 @@ const toggle = ref(false)
       </DashboardSidebar>
     </div>
     <div class="flex h-screen flex-col w-full">
-      <DashboardTopbar @menu-to="toggle = !toggle" />
+      <DashboardTopbar @menu-to="toggle = !toggle" :disconnect="logout" />
       <main class="p-4 h-screen">
         <slot />
       </main>

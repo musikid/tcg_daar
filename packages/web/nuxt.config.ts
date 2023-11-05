@@ -4,13 +4,14 @@ export default defineNuxtConfig({
   css: ['@unocss/reset/tailwind.css'],
   contracts: {
     network: ['localhost'],
+    unexportedContracts: ['Collection'],
   },
   app: {},
   postcss: {},
   routeRules: {
     '/dashboard/**': { ssr: false },
     // Add cors headers on API routes
-    '/api/**': { cors: true },
+    // '/api/**': { cors: true },
   },
   runtimeConfig: {
     pokemonTcgSdk: {
